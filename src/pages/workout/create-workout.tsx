@@ -36,16 +36,16 @@ const CreateWorkout = () => {
 		} catch {}
 	}
 
-	// useEffect(() => {
-	// 	if (!session) {
-	// 		router.push('/')
-	// 	}
-	// }, [router, session])
+	useEffect(() => {
+		if (!session) {
+			router.push('/')
+		}
+	}, [router, session])
 	return (
 		<div className='container mx-auto p-4'>
 			<h1 className='text-center'>Create Workout</h1>
 			<form
-				className='bg-slate-800 p-4 dark:bg-slate-200'
+				className='rounded bg-slate-500 p-4 dark:bg-slate-200'
 				onSubmit={handleSubmit(onSubmit)}
 			>
 				<div className='mb-4'>
@@ -76,10 +76,7 @@ const CreateWorkout = () => {
 				</div>
 
 				<div className='flex justify-center'>
-					<button
-						className='rounded bg-blue-500 py-2 px-4 font-bold text-white hover:bg-blue-700'
-						type='submit'
-					>
+					<button className='button' type='submit'>
 						Create
 					</button>
 				</div>
