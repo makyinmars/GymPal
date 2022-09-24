@@ -1,4 +1,5 @@
-import { env } from "./src/env/server.mjs";
+import bundleAnalyzer from '@next/bundle-analyzer'
+import {env} from './src/env/server.mjs'
 
 /**
  * Don't be scared of the generics here.
@@ -8,16 +9,21 @@ import { env } from "./src/env/server.mjs";
  * @param {T} config - A generic parameter that flows through to the return type
  * @constraint {{import('next').NextConfig}}
  */
+
+const withBundleAnalyzer = bundleAnalyzer({
+	enabled: process.env.ANALYZE === 'true',
+})
+
 function defineNextConfig(config) {
-  return config;
+	return withBundleAnalyzer(config)
 }
 
 export default defineNextConfig({
-  reactStrictMode: true,
-  swcMinify: true,
-  // Next.js i18n docs: https://nextjs.org/docs/advanced-features/i18n-routing
-  i18n: {
-    locales: ["en"],
-    defaultLocale: "en",
-  },
-});
+	reactStrictMode: true,
+	swcMinify: true,
+	// Next.js i18n docs: https://nextjs.org/docs/advanced-features/i18n-routing
+	i18n: {
+		locales: ['en'],
+		defaultLocale: 'en',
+	},
+})
