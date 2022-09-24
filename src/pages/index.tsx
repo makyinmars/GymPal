@@ -3,13 +3,10 @@ import Head from 'next/head'
 import {useSession, signIn, signOut} from 'next-auth/react'
 
 import {getServerAuthSession} from 'src/server/common/get-server-auth-session'
-import {trpc} from 'src/utils/trpc'
 import Theme from 'src/components/theme'
 
 const Home: NextPage = () => {
-	const hello = trpc.useQuery(['example.hello', {text: 'from tRPC'}])
 	const {data: session} = useSession()
-	console.log(session)
 
 	return (
 		<>
