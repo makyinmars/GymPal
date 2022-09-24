@@ -1,5 +1,6 @@
 import {useState, useEffect} from 'react'
 import {useTheme} from 'next-themes'
+import {BsFillMoonFill, BsFillSunFill} from 'react-icons/bs'
 
 const Theme = () => {
 	const [mounted, setMounted] = useState(false)
@@ -15,10 +16,16 @@ const Theme = () => {
 	}
 
 	return (
-		<div className='flex gap-4'>
-			The current theme is: {theme}
-			<button onClick={() => setTheme('light')}>Light Mode</button>
-			<button onClick={() => setTheme('dark')}>Dark Mode</button>
+		<div className='flex justify-center'>
+			{theme === 'light' ? (
+				<button onClick={() => setTheme('dark')}>
+					<BsFillSunFill className='icon' />
+				</button>
+			) : (
+				<button onClick={() => setTheme('light')}>
+					<BsFillMoonFill className='icon' />
+				</button>
+			)}
 		</div>
 	)
 }

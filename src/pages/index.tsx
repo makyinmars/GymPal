@@ -17,8 +17,8 @@ const Home: NextPage = () => {
 				<link rel='icon' href='/favicon.ico' />
 			</Head>
 
-			<main className='container mx-auto p-4'>
-				<Theme />
+			<main className='container mx-auto flex flex-col gap-4 p-4'>
+				{!session && <Theme />}
 				<h1 className='text-center text-4xl font-bold'>Hello Gym Pal</h1>
 				{session ? (
 					<div className='flex flex-col items-center justify-around gap-4'>
