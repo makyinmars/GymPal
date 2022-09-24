@@ -55,7 +55,7 @@ const WorkoutId = () => {
 	// 	}
 	// }, [router, session])
 	return (
-		<div className='container mx-auto p-4'>
+		<div className='container mx-auto flex flex-col gap-4 p-4'>
 			<h1 className='text-center'>Workout</h1>
 			{isLoading && <div>Loading...</div>}
 			{isError && <div>Error</div>}
@@ -67,7 +67,7 @@ const WorkoutId = () => {
 			)}
 
 			<form
-				className='bg-slate-800 p-4 dark:bg-slate-200'
+				className='rounded bg-slate-500 p-4 dark:bg-slate-400'
 				onSubmit={handleSubmit(onSubmit)}
 			>
 				<div className='mb-4'>
