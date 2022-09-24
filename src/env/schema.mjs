@@ -12,6 +12,9 @@ export const serverSchema = z.object({
 	NEXTAUTH_URL: z.string().url(),
 	DISCORD_CLIENT_ID: z.string(),
 	DISCORD_CLIENT_SECRET: z.string(),
+	TWILIO_ACCOUNT_SID: z.string(),
+	TWILIO_AUTH_TOKEN: z.string(),
+	TWILIO_PHONE_NUMBER: z.string(),
 })
 
 /**
