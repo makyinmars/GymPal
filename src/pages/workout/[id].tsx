@@ -44,25 +44,23 @@ const WorkoutId = () => {
 	const onSubmit: SubmitHandler<CreateExercise> = async (data) => {
 		try {
 			data.workoutId = id
-			const exercise = await createExercise.mutateAsync(data)
-			console.log(exercise)
+			await createExercise.mutateAsync(data)
 		} catch {}
 	}
 
-	// useEffect(() => {
-	// 	if (!session) {
-	// 		router.push('/')
-	// 	}
-	// }, [router, session])
+	useEffect(() => {
+		if (!session) {
+			router.push('/')
+		}
+	}, [router, session])
 	return (
-		<div className='container mx-auto flex flex-col gap-4 p-4'>
-			<h1 className='text-center'>Workout</h1>
+		<div className='container mx-auto grid grid-cols-1 gap-4 p-4'>
 			{isLoading && <div>Loading...</div>}
 			{isError && <div>Error</div>}
 			{data && (
-				<div className='max-w-4xl rounded bg-slate-500 p-4'>
-					<h2>Workout: {data.name} </h2>
-					<p>Description: {data.description}</p>
+				<div className='mx-auto'>
+					<h2 className='text-center text-xl'>Workout: {data.name}</h2>
+					<p className='text-center text-lg'>Description: {data.description}</p>
 				</div>
 			)}
 
@@ -97,17 +95,25 @@ const WorkoutId = () => {
 				<h2 className='text-center'>Exercises</h2>
 				{exercisesIsLoading && <div>Loading...</div>}
 				{exercisesIsError && <div>Error</div>}
-				{exercisesData && (
-					<div className='grid grid-cols-3 gap-4 rounded bg-slate-500 p-4'>
-						{exercisesData.map((exercise, i) => (
+				<div className='grid grid-cols-3 gap-4 rounded bg-slate-500 p-4'>
+					{exercisesIsLoading && (
+						<div className='col-span-3 text-center'>Loading...</div>
+					)}
+					{exercisesIsError && (
+						<div className='col-span-3 text-center'>Error</div>
+					)}
+					{exercisesData ? (
+						exercisesData.map((exercise, i) => (
 							<div key={i} className='rounded bg-slate-300 p-4'>
 								<h3 className='text-center text-xl font-bold'>
 									{exercise.name}
 								</h3>
 							</div>
-						))}
-					</div>
-				)}
+						))
+					) : (
+						<div className='col-span-3 text-center'>No exercises</div>
+					)}
+				</div>
 			</div>
 		</div>
 	)

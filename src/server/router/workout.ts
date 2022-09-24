@@ -22,14 +22,12 @@ export const workoutRouter = createProtectedRouter()
 		},
 	})
 	.query('getWorkouts', {
-		input: z.object({
-			userId: z.string(),
-		}),
-		resolve({ctx, input}) {
+		resolve({ctx}) {
+			const userId = ctx.session.user.id
+			// Get workouts by sorting by asc date and by userId
 			const workouts = ctx.prisma.workout.findMany({
-				where: {
-					userId: input.userId,
-				},
+				where: {userId},
+				orderBy: {createdAt: 'asc'},
 			})
 
 			if (workouts) {
