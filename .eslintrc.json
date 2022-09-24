@@ -1,8 +1,13 @@
 {
-	"parser": "@typescript-eslint/parser",
-	"parserOptions": {
-		"project": "./tsconfig.json"
-	},
 	"plugins": ["@typescript-eslint"],
-	"extends": ["next/core-web-vitals", "plugin:@typescript-eslint/recommended"]
+	"plugins": ["@typescript-eslint", "prettier"],
+	"extends": [
+		"next/core-web-vitals",
+		"plugin:@typescript-eslint/recommended",
+		"prettier"
+	],
+	"rules": {
+		"prettier/prettier": "warn",
+		"@next/next/no-img-element": "off"
+	}
 }

@@ -1,7 +1,5 @@
 const WorkoutId = () => {
-  return (
-    <div>WorkoutId</div>
-  )
+	return <div>WorkoutId</div>
 }
 
 export default WorkoutId

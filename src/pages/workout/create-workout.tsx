@@ -1,7 +1,5 @@
 const CreateWorkout = () => {
-  return (
-    <div>CreateWorkout</div>
-  )
+	return <div>CreateWorkout</div>
 }
 
 export default CreateWorkout
