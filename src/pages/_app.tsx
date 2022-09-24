@@ -2,11 +2,13 @@
 import {httpBatchLink} from '@trpc/client/links/httpBatchLink'
 import {loggerLink} from '@trpc/client/links/loggerLink'
 import {withTRPC} from '@trpc/next'
+import type {Session} from 'next-auth'
 import {SessionProvider} from 'next-auth/react'
 import superjson from 'superjson'
 import type {AppType} from 'next/app'
+import {ThemeProvider} from 'next-themes'
+
 import type {AppRouter} from '../server/router'
-import type {Session} from 'next-auth'
 import '../styles/globals.css'
 
 const MyApp: AppType<{session: Session | null}> = ({
@@ -14,9 +16,11 @@ const MyApp: AppType<{session: Session | null}> = ({
 	pageProps: {session, ...pageProps},
 }) => {
 	return (
-		<SessionProvider session={session}>
-			<Component {...pageProps} />
-		</SessionProvider>
+		<ThemeProvider attribute='class'>
+			<SessionProvider session={session}>
+				<Component {...pageProps} />
+			</SessionProvider>
+		</ThemeProvider>
 	)
 }
 
