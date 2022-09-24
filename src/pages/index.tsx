@@ -18,7 +18,7 @@ const Home: NextPage = () => {
 			</Head>
 
 			<main className='container mx-auto flex flex-col gap-4 p-4'>
-				{!session && <Theme />}
+				<Theme />
 				<h1 className='text-center text-4xl font-bold'>Hello Gym Pal</h1>
 				{session ? (
 					<div className='flex flex-col items-center justify-around gap-4'>
