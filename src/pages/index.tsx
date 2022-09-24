@@ -4,6 +4,7 @@ import {useSession, signIn, signOut} from 'next-auth/react'
 
 import {getServerAuthSession} from 'src/server/common/get-server-auth-session'
 import {trpc} from 'src/utils/trpc'
+import Theme from 'src/components/theme'
 
 const Home: NextPage = () => {
 	const hello = trpc.useQuery(['example.hello', {text: 'from tRPC'}])
@@ -19,6 +20,7 @@ const Home: NextPage = () => {
 			</Head>
 
 			<main className='container mx-auto p-4'>
+				<Theme />
 				<h1 className='text-center text-4xl font-bold'>Hello Gym Pal</h1>
 				{session ? (
 					<div>
