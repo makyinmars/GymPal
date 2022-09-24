@@ -66,6 +66,8 @@ Please note that Next.js requires a different process for buildtime (available i
    <summary>.dockerignore</summary>
 
    ```
+
+
    .env
    Dockerfile
    .dockerignore
