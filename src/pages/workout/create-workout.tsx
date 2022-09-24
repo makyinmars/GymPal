@@ -1,8 +1,8 @@
 import {useSession} from 'next-auth/react'
 import {useRouter} from 'next/router'
 import {useEffect} from 'react'
-
 import {useForm, SubmitHandler} from 'react-hook-form'
+
 import {trpc} from 'src/utils/trpc'
 
 interface CreateWorkout {
@@ -17,20 +17,22 @@ const CreateWorkout = () => {
 
 	const userId = session?.user?.id as string
 
-	const createWorkoutMutation = trpc.useMutation('workout.createWorkout')
+	const createWorkout = trpc.useMutation('workout.createWorkout')
 
 	const {
 		register,
 		handleSubmit,
-		watch,
 		formState: {errors},
 	} = useForm<CreateWorkout>()
 
 	const onSubmit: SubmitHandler<CreateWorkout> = async (data) => {
 		try {
 			data.userId = userId
-			const workout = await createWorkoutMutation.mutateAsync(data)
+			const workout = await createWorkout.mutateAsync(data)
 			console.log(workout)
+			if (workout) {
+				router.push(`/workout/${workout.id}`)
+			}
 		} catch {}
 	}
 

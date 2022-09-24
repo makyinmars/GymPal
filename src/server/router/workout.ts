@@ -1,13 +1,24 @@
 import {createProtectedRouter} from './context'
 import {z} from 'zod'
+import {TRPCError} from '@trpc/server'
 
 export const workoutRouter = createProtectedRouter()
 	.query('getWorkoutById', {
 		input: z.object({
 			id: z.string(),
 		}),
-		resolve({ctx, input}) {
-			return ctx.prisma.workout.findUnique({where: {id: input.id}})
+		async resolve({ctx, input}) {
+			const workout = await ctx.prisma.workout.findUnique({
+				where: {id: input.id},
+			})
+			if (workout) {
+				return workout
+			} else {
+				throw new TRPCError({
+					code: 'NOT_FOUND',
+					message: 'Workout not found',
+				})
+			}
 		},
 	})
 	.query('getWorkouts', {
@@ -15,25 +26,45 @@ export const workoutRouter = createProtectedRouter()
 			userId: z.string(),
 		}),
 		resolve({ctx, input}) {
-			return ctx.prisma.workout.findMany({
+			const workouts = ctx.prisma.workout.findMany({
 				where: {
 					userId: input.userId,
 				},
 			})
+
+			if (workouts) {
+				return workouts
+			} else {
+				throw new TRPCError({
+					code: 'NOT_FOUND',
+					message: 'Workouts not found',
+				})
+			}
 		},
 	})
 	.mutation('createWorkout', {
 		input: z.object({
 			userId: z.string(),
 			name: z.string(),
+			description: z.string(),
 		}),
 		resolve({ctx, input}) {
-			return ctx.prisma.workout.create({
+			const newWorkout = ctx.prisma.workout.create({
 				data: {
 					userId: input.userId,
 					name: input.name,
+					description: input.description,
 				},
 			})
+
+			if (newWorkout) {
+				return newWorkout
+			} else {
+				throw new TRPCError({
+					code: 'CONFLICT',
+					message: 'Workout not created',
+				})
+			}
 		},
 	})
 	.mutation('updateWorkout', {
@@ -42,7 +73,7 @@ export const workoutRouter = createProtectedRouter()
 			name: z.string(),
 		}),
 		resolve({ctx, input}) {
-			return ctx.prisma.workout.update({
+			const updatedWorkout = ctx.prisma.workout.update({
 				where: {
 					id: input.id,
 				},
@@ -50,6 +81,15 @@ export const workoutRouter = createProtectedRouter()
 					name: input.name,
 				},
 			})
+
+			if (updatedWorkout) {
+				return updatedWorkout
+			} else {
+				throw new TRPCError({
+					code: 'NOT_FOUND',
+					message: 'Workout not updated',
+				})
+			}
 		},
 	})
 	.mutation('deleteWorkout', {
@@ -57,10 +97,19 @@ export const workoutRouter = createProtectedRouter()
 			id: z.string(),
 		}),
 		resolve({ctx, input}) {
-			return ctx.prisma.workout.delete({
+			const deletedWorkout = ctx.prisma.workout.delete({
 				where: {
 					id: input.id,
 				},
 			})
+
+			if (deletedWorkout) {
+				return deletedWorkout
+			} else {
+				throw new TRPCError({
+					code: 'NOT_FOUND',
+					message: 'Workout not deleted',
+				})
+			}
 		},
 	})
