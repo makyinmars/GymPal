@@ -1,4 +1,4 @@
-// import { FaDiscord } from 'react-icons/fa'
+import Menu from '../components/menu'
 
 const login = () => {
 	return (
@@ -8,8 +8,8 @@ const login = () => {
 				<div className='bg-black'></div>
 				<div>
 					<span>Login</span>
-					{/* <FaDiscord /> */}
 				</div>
+				<Menu />
 			</div>
 		</div>
 	)
