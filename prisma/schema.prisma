@@ -65,24 +65,24 @@ model VerificationToken {
 }
 
 model Workout {
-  id        String     @id @default(cuid())
-  name      String
-  createdAt DateTime   @default(now())
-  updatedAt DateTime   @updatedAt
-  exercises Exercise[]
-  User      User?      @relation(fields: [userId], references: [id])
-  userId    String?
+  id          String     @id @default(cuid())
+  name        String
+  description String
+  createdAt   DateTime   @default(now())
+  updatedAt   DateTime   @updatedAt
+  exercises   Exercise[]
+  User        User?      @relation(fields: [userId], references: [id])
+  userId      String?
 }
 
 model Exercise {
-  id          String   @id @default(cuid())
-  name        String
-  description String
-  createdAt   DateTime @default(now())
-  updatedAt   DateTime @updatedAt
-  workoutId   String
-  workout     Workout  @relation(fields: [workoutId], references: [id], onDelete: Cascade)
-  sets        Set[]
+  id        String   @id @default(cuid())
+  name      String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  workoutId String
+  workout   Workout  @relation(fields: [workoutId], references: [id], onDelete: Cascade)
+  sets      Set[]
 }
 
 model Set {

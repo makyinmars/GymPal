@@ -6,16 +6,16 @@ export const exerciseRouter = createProtectedRouter()
 		input: z.object({
 			id: z.string(),
 		}),
-		resolve({ctx, input}) {
-			return ctx.prisma.exercise.findUnique({where: {id: input.id}})
+		async resolve({ctx, input}) {
+			return await ctx.prisma.exercise.findUnique({where: {id: input.id}})
 		},
 	})
 	.query('getExercises', {
 		input: z.object({
 			workoutId: z.string(),
 		}),
-		resolve({ctx, input}) {
-			return ctx.prisma.exercise.findMany({
+		async resolve({ctx, input}) {
+			return await ctx.prisma.exercise.findMany({
 				where: {
 					workoutId: input.workoutId,
 				},
@@ -26,16 +26,16 @@ export const exerciseRouter = createProtectedRouter()
 		input: z.object({
 			workoutId: z.string(),
 			name: z.string(),
-			description: z.string(),
 		}),
-		resolve({ctx, input}) {
-			return ctx.prisma.exercise.create({
+		async resolve({ctx, input}) {
+			const exercise = await ctx.prisma.exercise.create({
 				data: {
 					workoutId: input.workoutId,
 					name: input.name,
-					description: input.description,
 				},
 			})
+
+			return exercise
 		},
 	})
 	.mutation('updateExercise', {
@@ -51,7 +51,6 @@ export const exerciseRouter = createProtectedRouter()
 				},
 				data: {
 					name: input.name,
-					description: input.description,
 				},
 			})
 		},
@@ -60,8 +59,8 @@ export const exerciseRouter = createProtectedRouter()
 		input: z.object({
 			id: z.string(),
 		}),
-		resolve({ctx, input}) {
-			return ctx.prisma.exercise.delete({
+		async resolve({ctx, input}) {
+			return await ctx.prisma.exercise.delete({
 				where: {
 					id: input.id,
 				},
