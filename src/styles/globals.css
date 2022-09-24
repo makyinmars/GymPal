@@ -6,4 +6,8 @@
   body {
     @apply bg-slate-200 dark:bg-slate-800 text-slate-800 dark:text-slate-200;
   }
+
+  .button {
+    @apply rounded bg-blue-500 py-2 px-4 font-bold text-white hover:bg-blue-700;
+  }
 }
