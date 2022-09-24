@@ -1,6 +1,7 @@
 import type {GetServerSidePropsContext, NextPage} from 'next'
 import Head from 'next/head'
 import {useSession, signIn, signOut} from 'next-auth/react'
+import Menu from '../components/menu'
 
 import {getServerAuthSession} from 'src/server/common/get-server-auth-session'
 import Theme from 'src/components/theme'
@@ -19,6 +20,7 @@ const Home: NextPage = () => {
 			<main className='container mx-auto p-4'>
 				<Theme />
 				<h1 className='text-center text-4xl font-bold'>Hello Gym Pal</h1>
+				<Menu />
 				{session ? (
 					<div>
 						<p>Logged in as {session?.user?.email}</p>
