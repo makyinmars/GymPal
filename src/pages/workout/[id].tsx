@@ -3,6 +3,7 @@ import {useRouter} from 'next/router'
 import {useEffect} from 'react'
 import {useForm, SubmitHandler} from 'react-hook-form'
 import Menu from 'src/components/menu'
+import Set from 'src/components/set'
 
 import {trpc} from 'src/utils/trpc'
 
@@ -69,7 +70,7 @@ const WorkoutId = () => {
 				)}
 
 				<form
-					className='rounded bg-slate-500 p-4 dark:bg-slate-400'
+					className='rounded bg-slate-300 p-4'
 					onSubmit={handleSubmit(onSubmit)}
 				>
 					<div className='mb-4'>
@@ -91,7 +92,7 @@ const WorkoutId = () => {
 							className='rounded bg-blue-500 py-2 px-4 font-bold text-white hover:bg-blue-700'
 							type='submit'
 						>
-							Create
+							Create new exercise
 						</button>
 					</div>
 				</form>
@@ -99,19 +100,20 @@ const WorkoutId = () => {
 					<h2 className='text-center'>Exercises</h2>
 					{exercisesIsLoading && <div>Loading...</div>}
 					{exercisesIsError && <div>Error</div>}
-					<div className='grid grid-cols-3 gap-4 rounded bg-slate-500 p-4'>
+					<div className='grid grid-cols-1 gap-4 rounded p-4 md:grid-cols-3'>
 						{exercisesIsLoading && (
 							<div className='col-span-3 text-center'>Loading...</div>
 						)}
 						{exercisesIsError && (
 							<div className='col-span-3 text-center'>Error</div>
 						)}
-						{exercisesData ? (
+						{exercisesData && exercisesData.length >= 1 ? (
 							exercisesData.map((exercise, i) => (
-								<div key={i} className='rounded bg-slate-300 p-4'>
+								<div key={i} className='rounded p-4'>
 									<h3 className='text-center text-xl font-bold'>
 										{exercise.name}
 									</h3>
+									<Set exerciseId={exercise.id} />
 								</div>
 							))
 						) : (
