@@ -52,9 +52,12 @@ const Home: NextPage = () => {
 					<div>
 						<div className='flex min-h-screen flex-row items-center justify-center'>
 							<div className='col-8 flex flex'>
-								<p>Not signed in </p>
+								<div className='text-2xl'>
+									<p>Sign In </p>
+								</div>
 							</div>
 
+							{/* <FaDiscord className='text-4xl text-blue-400'/> */}
 							<div className='center-0 absolute mb-40'>
 								<button
 									onClick={() =>
@@ -62,9 +65,8 @@ const Home: NextPage = () => {
 											callbackUrl: `/`,
 										})
 									}
-									className='rounded border border-black p-4'
 								>
-									Discord
+									<FaDiscord className='text-8xl text-blue-400' />
 								</button>
 							</div>
 						</div>
