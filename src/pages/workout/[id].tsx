@@ -2,6 +2,7 @@ import {useSession} from 'next-auth/react'
 import {useRouter} from 'next/router'
 import {useEffect} from 'react'
 import {useForm, SubmitHandler} from 'react-hook-form'
+import Chart from 'src/components/chart'
 import Menu from 'src/components/menu'
 import Set from 'src/components/set'
 
@@ -69,6 +70,7 @@ const WorkoutId = () => {
 					</div>
 				)}
 
+				{data && <Chart workoutId={data.id} />}
 				<form
 					className='rounded bg-slate-300 p-4'
 					onSubmit={handleSubmit(onSubmit)}
