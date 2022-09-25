@@ -1,9 +1,8 @@
 import {useSession} from 'next-auth/react'
 import {useRouter} from 'next/router'
 import {useEffect} from 'react'
-import {FcFullTrash} from 'react-icons/fc'
+import Head from 'next/head'
 import Menu from 'src/components/menu'
-
 import {trpc} from 'src/utils/trpc'
 
 const ViewWorkouts = () => {
@@ -35,43 +34,48 @@ const ViewWorkouts = () => {
 		}
 	}, [router, session])
 	return (
-		<Menu>
-			<div className='container mx-auto flex flex-col gap-4 p-4'>
-				<h1 className='text-center text-2xl font-bold'>View Workouts</h1>
-				<div className='grid grid-cols-1 gap-4 rounded md:grid-cols-3'>
-					{isLoading && (
-						<div className='col-span-3 text-center'>Loading...</div>
-					)}
-					{isError && <div className='col-span-3 text-center'>Error</div>}
-					{data && data.length >= 1 ? (
-						data.map((workout, i) => (
-							<div
-								key={i}
-								className='flex cursor-pointer flex-col gap-2 rounded bg-slate-300 p-1'
-							>
-								<p
-									className='text-center text-lg font-bold hover:text-blue-400'
-									onClick={() => router.push(`/workout/${workout.id}`)}
+		<>
+			<Head>
+				<title>View Workouts</title>
+			</Head>
+			<Menu>
+				<div className='container mx-auto flex flex-col gap-4 p-4'>
+					<h1 className='text-center text-2xl font-bold'>View Workouts</h1>
+					<div className='grid grid-cols-1 gap-4 rounded md:grid-cols-3'>
+						{isLoading && (
+							<div className='col-span-3 text-center'>Loading...</div>
+						)}
+						{isError && <div className='col-span-3 text-center'>Error</div>}
+						{data && data.length >= 1 ? (
+							data.map((workout, i) => (
+								<div
+									key={i}
+									className='flex cursor-pointer flex-col gap-2 rounded bg-slate-300 p-1'
 								>
-									{workout.name}
-								</p>
-								<p className='text-center'>{workout.description}</p>
-								<div className='flex justify-center'>
-									<button
-										className='button'
-										onClick={() => onDeleteWorkout(workout.id)}
+									<p
+										className='text-center text-lg font-bold hover:text-blue-400'
+										onClick={() => router.push(`/workout/${workout.id}`)}
 									>
-										Delete Workout
-									</button>
+										{workout.name}
+									</p>
+									<p className='text-center'>{workout.description}</p>
+									<div className='flex justify-center'>
+										<button
+											className='button'
+											onClick={() => onDeleteWorkout(workout.id)}
+										>
+											Delete Workout
+										</button>
+									</div>
 								</div>
-							</div>
-						))
-					) : (
-						<div className='col-span-3 text-center'>No Workouts</div>
-					)}
+							))
+						) : (
+							<div className='col-span-3 text-center'>No Workouts</div>
+						)}
+					</div>
 				</div>
-			</div>
-		</Menu>
+			</Menu>
+		</>
 	)
 }
 
