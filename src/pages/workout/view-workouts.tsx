@@ -8,8 +8,25 @@ import {trpc} from 'src/utils/trpc'
 const ViewWorkouts = () => {
 	const {data: session} = useSession()
 	const router = useRouter()
+	const utils = trpc.useContext()
 
 	const {data, isError, isLoading} = trpc.useQuery(['workout.getWorkouts'])
+
+	const deleteWorkout = trpc.useMutation('workout.deleteWorkout', {
+		onSuccess: () => {
+			utils.invalidateQueries(['workout.getWorkouts'])
+		},
+	})
+
+	const onDeleteWorkout = async (id: string) => {
+		try {
+			await deleteWorkout.mutateAsync({id})
+		} catch {}
+	}
+
+	useEffect(() => {
+		utils.invalidateQueries(['workout.getWorkouts'])
+	}, [utils])
 
 	useEffect(() => {
 		if (!session) {
@@ -24,22 +41,32 @@ const ViewWorkouts = () => {
 			<Menu>
 				<div className='container mx-auto flex flex-col gap-4 p-4'>
 					<h1 className='text-center text-2xl font-bold'>View Workouts</h1>
-					<div className='grid grid-cols-3 gap-4 rounded bg-blue-300 p-4 dark:bg-slate-900'>
+					<div className='grid grid-cols-1 gap-4 rounded md:grid-cols-3'>
 						{isLoading && (
 							<div className='col-span-3 text-center'>Loading...</div>
 						)}
 						{isError && <div className='col-span-3 text-center'>Error</div>}
-						{data ? (
+						{data && data.length >= 1 ? (
 							data.map((workout, i) => (
 								<div
 									key={i}
-									className='flex cursor-pointer flex-col rounded bg-slate-700 p-1 text-white dark:bg-blue-900'
-									onClick={() => router.push(`/workout/${workout.id}`)}
+									className='flex cursor-pointer flex-col gap-2 rounded bg-slate-300 p-1'
 								>
-									<p className='text-center text-lg font-bold'>
+									<p
+										className='text-center text-lg font-bold hover:text-blue-400'
+										onClick={() => router.push(`/workout/${workout.id}`)}
+									>
 										{workout.name}
 									</p>
 									<p className='text-center'>{workout.description}</p>
+									<div className='flex justify-center'>
+										<button
+											className='button'
+											onClick={() => onDeleteWorkout(workout.id)}
+										>
+											Delete Workout
+										</button>
+									</div>
 								</div>
 							))
 						) : (

@@ -3,7 +3,11 @@ import Head from 'next/head'
 import {useRouter} from 'next/router'
 import {useEffect} from 'react'
 import {useForm, SubmitHandler} from 'react-hook-form'
+import Chart from 'src/components/chart'
+
+import Set from 'src/components/set'
 import Menu from 'src/components/menu'
+import PredefinedExercises from 'src/components/predefined-exercises'
 import {trpc} from 'src/utils/trpc'
 
 interface CreateExercise {
@@ -23,28 +27,39 @@ const WorkoutId = () => {
 		formState: {errors},
 	} = useForm<CreateExercise>()
 
-	const id = router.query.id as string
+	const workoutId = router.query.id as string
+
+	const deleteExercise = trpc.useMutation('exercise.deleteExercise')
+
+	const onDeleteExercise = async (id: string) => {
+		try {
+			const deleted = await deleteExercise.mutateAsync({id})
+			if (deleted) {
+				utils.invalidateQueries(['exercise.getExercises', {workoutId}])
+			}
+		} catch {}
+	}
 
 	const {data, isError, isLoading} = trpc.useQuery([
 		'workout.getWorkoutById',
-		{id},
+		{id: workoutId},
 	])
 
 	const {
 		data: exercisesData,
 		isError: exercisesIsError,
 		isLoading: exercisesIsLoading,
-	} = trpc.useQuery(['exercise.getExercises', {workoutId: id}])
+	} = trpc.useQuery(['exercise.getExercises', {workoutId: workoutId}])
 
 	const createExercise = trpc.useMutation('exercise.createExercise', {
 		onSuccess() {
-			utils.fetchQuery(['exercise.getExercises', {workoutId: id}])
+			utils.invalidateQueries(['exercise.getExercises', {workoutId: workoutId}])
 		},
 	})
 
 	const onSubmit: SubmitHandler<CreateExercise> = async (data) => {
 		try {
-			data.workoutId = id
+			data.workoutId = workoutId
 			await createExercise.mutateAsync(data)
 		} catch {}
 	}
@@ -71,6 +86,9 @@ const WorkoutId = () => {
 							</p>
 						</div>
 					)}
+					{data && data.type && (
+						<PredefinedExercises type={data.type} workoutId={workoutId} />
+					)}
 
 					<form
 						className='rounded bg-slate-500 p-4 dark:bg-slate-400'
@@ -95,7 +113,7 @@ const WorkoutId = () => {
 								className='rounded bg-blue-500 py-2 px-4 font-bold text-white hover:bg-blue-700'
 								type='submit'
 							>
-								Create
+								Create new exercise
 							</button>
 						</div>
 					</form>
@@ -103,19 +121,34 @@ const WorkoutId = () => {
 						<h2 className='text-center'>Exercises</h2>
 						{exercisesIsLoading && <div>Loading...</div>}
 						{exercisesIsError && <div>Error</div>}
-						<div className='grid grid-cols-3 gap-4 rounded bg-slate-500 p-4'>
+						<div className='grid grid-cols-1 gap-4 rounded p-4 md:grid-cols-3'>
 							{exercisesIsLoading && (
 								<div className='col-span-3 text-center'>Loading...</div>
 							)}
 							{exercisesIsError && (
 								<div className='col-span-3 text-center'>Error</div>
 							)}
-							{exercisesData ? (
+							{exercisesData && exercisesData.length >= 1 ? (
 								exercisesData.map((exercise, i) => (
-									<div key={i} className='rounded bg-slate-300 p-4'>
+									<div
+										key={i}
+										className='flex flex-col gap-4 rounded bg-slate-300 p-4'
+									>
 										<h3 className='text-center text-xl font-bold'>
 											{exercise.name}
 										</h3>
+										<Set
+											exerciseId={exercise.id}
+											workoutId={exercise.workoutId}
+										/>
+										<div className='flex justify-center'>
+											<button
+												className='button'
+												onClick={() => onDeleteExercise(exercise.id)}
+											>
+												Delete exercise
+											</button>
+										</div>
 									</div>
 								))
 							) : (

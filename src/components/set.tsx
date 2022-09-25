@@ -28,12 +28,17 @@ const Set = ({exerciseId, workoutId}: SetProps) => {
 		},
 		mode: 'onBlur',
 	})
+	const utils = trpc.useContext()
 	const {fields, append, remove} = useFieldArray({
 		name: 'sets',
 		control,
 	})
 
-	const createSets = trpc.useMutation('set.createSets')
+	const createSets = trpc.useMutation('set.createSets', {
+		onSuccess() {
+			utils.invalidateQueries(['set.getSetsByExerciseId', {exerciseId}])
+		},
+	})
 
 	const {data, isError, isLoading} = trpc.useQuery([
 		'set.getSetsByExerciseId',
@@ -44,7 +49,9 @@ const Set = ({exerciseId, workoutId}: SetProps) => {
 			data.exerciseId = exerciseId
 			data.workoutId = workoutId
 			const sets = await createSets.mutateAsync(data)
-			console.log(sets)
+			if (sets) {
+				utils.invalidateQueries(['set.getSetsByExerciseId', {exerciseId}])
+			}
 		} catch {}
 	}
 	return (
@@ -59,13 +66,13 @@ const Set = ({exerciseId, workoutId}: SetProps) => {
 				))}
 			<form
 				onSubmit={handleSubmit(onSubmit)}
-				className='flex flex-col gap-4 rounded p-2 shadow-md shadow-slate-400'
+				className='flex flex-col gap-4 rounded p-2'
 			>
 				{fields.map((field, index) => {
 					return (
 						<div
 							key={field.id}
-							className='grid grid-cols-2 items-center gap-2 rounded bg-slate-200 p-2'
+							className='grid grid-cols-2 items-center gap-2 rounded bg-slate-400 p-2'
 						>
 							<label className='text-center' htmlFor='weight'>
 								Weight
@@ -116,7 +123,7 @@ const Set = ({exerciseId, workoutId}: SetProps) => {
 						</button>
 					</div>
 					<div className='flex justify-center'>
-						<button className='button'>Submit</button>
+						<button className='button'>Save Sets</button>
 					</div>
 				</div>
 			</form>
