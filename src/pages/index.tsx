@@ -123,7 +123,7 @@ const Home: NextPage = () => {
 								<div className='text-purple-400'>Keiaus</div>
 							</a>
 							<div className='flex rounded-full bg-purple-400 p-1 align-top'>
-								Keith
+								Keith :D
 							</div>
 						</div>
 					</div>

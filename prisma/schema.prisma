@@ -50,6 +50,7 @@ model User {
   name          String?
   email         String?   @unique
   emailVerified DateTime?
+  phoneNumber   String?
   image         String?
   workouts      Workout[]
   accounts      Account[]
@@ -67,6 +68,7 @@ model VerificationToken {
 model Workout {
   id          String     @id @default(cuid())
   name        String
+  type        String?
   description String
   createdAt   DateTime   @default(now())
   updatedAt   DateTime   @updatedAt
