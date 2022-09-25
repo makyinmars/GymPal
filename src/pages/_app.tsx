@@ -7,20 +7,26 @@ import {SessionProvider} from 'next-auth/react'
 import superjson from 'superjson'
 import type {AppType} from 'next/app'
 import {ThemeProvider} from 'next-themes'
-
+import Head from 'next/head'
 import type {AppRouter} from '../server/router'
 import '../styles/globals.css'
+import Menu from 'src/components/menu'
 
 const MyApp: AppType<{session: Session | null}> = ({
 	Component,
 	pageProps: {session, ...pageProps},
 }) => {
 	return (
-		<ThemeProvider attribute='class'>
-			<SessionProvider session={session}>
-				<Component {...pageProps} />
-			</SessionProvider>
-		</ThemeProvider>
+		<>
+			<Head>
+				<title>App</title>
+			</Head>
+			<ThemeProvider attribute='class'>
+				<SessionProvider session={session}>
+					<Component {...pageProps} />
+				</SessionProvider>
+			</ThemeProvider>
+		</>
 	)
 }
 

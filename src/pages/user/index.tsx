@@ -6,6 +6,8 @@ import Menu from 'src/components/menu'
 
 import {getServerAuthSession} from 'src/server/common/get-server-auth-session'
 
+import {trpc} from 'src/utils/trpc'
+import Head from 'next/head'
 const UserId = () => {
 	const {data: session} = useSession()
 	const router = useRouter()
@@ -17,12 +19,17 @@ const UserId = () => {
 	}, [router, session])
 
 	return (
-		<Menu>
-			<div className='container mx-auto p-4'>
-				<h1>User</h1>
-				<div className=''></div>
-			</div>
-		</Menu>
+		<>
+			<Head>
+				<title>Settings</title>
+			</Head>
+			<Menu>
+				<div className='container mx-auto p-4'>
+					<h1>User</h1>
+					<div className=''></div>
+				</div>
+			</Menu>
+		</>
 	)
 }
 
