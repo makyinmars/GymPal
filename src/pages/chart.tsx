@@ -8,9 +8,15 @@ import {
 	Legend,
 } from 'chart.js'
 import {Bar} from 'react-chartjs-2'
+
+import {trpc} from 'src/utils/trpc'
 // import faker from 'faker';
 
-const chart = () => {
+interface ChartProps {
+	workoutId: string
+}
+
+const Chart = ({workoutId}: ChartProps) => {
 	ChartJS.register(
 		CategoryScale,
 		LinearScale,
@@ -31,6 +37,12 @@ const chart = () => {
 			},
 		},
 	}
+
+	const {
+		data: exercisesData,
+		isError: exercisesIsError,
+		isLoading: exercisesIsLoading,
+	} = trpc.useQuery(['exercise.getExercises', {workoutId}])
 	const labels = [
 		'January',
 		'February',
@@ -40,6 +52,8 @@ const chart = () => {
 		'June',
 		'July',
 	]
+
+	console.log(exercisesData)
 
 	const fake = []
 	for (let i = 0; i < 50; i++) {
@@ -64,4 +78,4 @@ const chart = () => {
 	return <Bar options={options} data={data} />
 }
 
-export default chart
+export default Chart
