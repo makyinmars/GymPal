@@ -21,17 +21,19 @@ export const workoutRouter = createRouter()
 				input: z.object({
 					id: z.string(),
 				}),
-				async resolve({ctx, input}) {
-					const workout = await ctx.prisma.workout.findUnique({
-						where: {id: input.id},
-					})
-					if (workout) {
-						return workout
-					} else {
-						throw new TRPCError({
-							code: 'NOT_FOUND',
-							message: 'Workout not found',
+				resolve({ctx, input}) {
+					if (input.id) {
+						const workout = ctx.prisma.workout.findUnique({
+							where: {id: input.id},
 						})
+						if (workout) {
+							return workout
+						} else {
+							throw new TRPCError({
+								code: 'NOT_FOUND',
+								message: 'Workout not found',
+							})
+						}
 					}
 				},
 			})

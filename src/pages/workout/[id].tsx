@@ -10,6 +10,8 @@ import Set from 'src/components/set'
 import Menu from 'src/components/menu'
 import PredefinedExercises from 'src/components/predefined-exercises'
 import {trpc} from 'src/utils/trpc'
+import {GetServerSidePropsContext} from 'next'
+import {getServerAuthSession} from 'src/server/common/get-server-auth-session'
 
 interface CreateExercise {
 	workoutId: string
@@ -49,7 +51,7 @@ const WorkoutId = () => {
 
 	const {data, isError, isLoading} = trpc.useQuery([
 		'workout.getWorkoutById',
-		{id: workoutId},
+		{id: router.query && (router.query.id as string)},
 	])
 
 	const {
@@ -60,7 +62,10 @@ const WorkoutId = () => {
 
 	const createExercise = trpc.useMutation('exercise.createExercise', {
 		onSuccess() {
-			utils.invalidateQueries(['exercise.getExercises', {workoutId: workoutId}])
+			utils.invalidateQueries([
+				'exercise.getExercises',
+				{workoutId: router.query && (router.query.id as string)},
+			])
 		},
 	})
 
@@ -92,6 +97,12 @@ const WorkoutId = () => {
 			}
 		}
 	}
+
+	useEffect(() => {
+		utils.prefetchQuery(['workout.getWorkoutById', {id: workoutId}])
+		utils.prefetchQuery(['user.getUser'])
+		utils.prefetchQuery(['exercise.getExercises', {workoutId}])
+	}, [utils, workoutId])
 
 	useEffect(() => {
 		if (!session) {
@@ -202,3 +213,11 @@ const WorkoutId = () => {
 }
 
 export default WorkoutId
+
+export const getServerSideProps = async (ctx: GetServerSidePropsContext) => {
+	return {
+		props: {
+			session: await getServerAuthSession(ctx),
+		},
+	}
+}

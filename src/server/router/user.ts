@@ -24,12 +24,14 @@ export const userRouter = createProtectedRouter()
 		},
 	})
 	.query('getUser', {
-		async resolve({ctx}) {
-			return await ctx.prisma.user.findUnique({
-				where: {
-					email: ctx.session.user.email as string | undefined,
-				},
-			})
+		resolve({ctx}) {
+			if (ctx.session && ctx.session.user) {
+				return ctx.prisma.user.findUnique({
+					where: {
+						email: ctx.session.user.email as string | undefined,
+					},
+				})
+			}
 		},
 	})
 	.mutation('deleteUser', {

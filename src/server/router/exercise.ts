@@ -39,13 +39,15 @@ export const exerciseRouter = createRouter()
 				input: z.object({
 					workoutId: z.string(),
 				}),
-				async resolve({ctx, input}) {
-					return await ctx.prisma.exercise.findMany({
-						where: {
-							workoutId: input.workoutId,
-						},
-						select: defaultExerciseSelect,
-					})
+				resolve({ctx, input}) {
+					if (input.workoutId) {
+						return ctx.prisma.exercise.findMany({
+							where: {
+								workoutId: input.workoutId,
+							},
+							select: defaultExerciseSelect,
+						})
+					}
 				},
 			})
 			.mutation('createExercise', {
