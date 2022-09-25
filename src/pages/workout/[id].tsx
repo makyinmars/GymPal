@@ -79,7 +79,8 @@ const WorkoutId = () => {
 	const onCompleteWorkout = async () => {
 		if (userData && userData.phoneNumber) {
 			try {
-				const message = `Great job on your workout! You can view your workout at https://gym-pal.vercel.app/view-workout/${workoutId}`
+				// const message = `Great job on your workout! You can view your workout at https://gym-pal.vercel.app/view-workout/${workoutId}`
+				const message = `Great job on your workout! Don't forge to keep up the good work!`
 				const to = `+1${userData.phoneNumber}`
 				const data = {
 					message,
