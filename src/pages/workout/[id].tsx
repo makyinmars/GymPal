@@ -109,6 +109,7 @@ const WorkoutId = () => {
 			router.push('/')
 		}
 	}, [router, session])
+
 	return (
 		<>
 			<Head>
