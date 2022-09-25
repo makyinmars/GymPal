@@ -5,6 +5,7 @@ import {trpc} from 'src/utils/trpc'
 interface SetProps {
 	exerciseId: string
 	workoutId: string
+	showForm: boolean
 }
 
 interface SetInputs {
@@ -16,7 +17,7 @@ interface SetInputs {
 	}[]
 }
 
-const Set = ({exerciseId, workoutId}: SetProps) => {
+const Set = ({exerciseId, workoutId, showForm}: SetProps) => {
 	const {
 		register,
 		control,
@@ -58,64 +59,69 @@ const Set = ({exerciseId, workoutId}: SetProps) => {
 		<div className='text-center'>
 			{isLoading && <div>Loading...</div>}
 			{isError && <div>Error</div>}
+			<div className='flex justify-around font-semibold'>
+				<div>Weight</div>
+				<div>Reps</div>
+			</div>
 			{data &&
 				data.map((set) => (
-					<div key={set.id}>
-						{set.weight} {set.reps}
+					<div key={set.id} className='flex justify-around'>
+						<p>{set.weight}</p>
+						<p> {set.reps}</p>
 					</div>
 				))}
-			<form
-				onSubmit={handleSubmit(onSubmit)}
-				className='flex flex-col gap-4 rounded p-2'
-			>
-				{fields.map((field, index) => {
-					return (
-						<div
-							key={field.id}
-							className='grid grid-cols-2 items-center gap-2 rounded bg-blue-700 p-2 dark:bg-blue-900'
-						>
-							<label
-								className='text-center text-2xl font-bold text-white'
-								htmlFor='weight'
+			{showForm && (
+				<form
+					onSubmit={handleSubmit(onSubmit)}
+					className='flex flex-col gap-4 rounded p-2'
+				>
+					{fields.map((field, index) => {
+						return (
+							<div
+								key={field.id}
+								className='grid grid-cols-2 items-center gap-2 rounded bg-blue-700 p-2 dark:bg-blue-900'
 							>
-								Weight:
-							</label>
-							<input
-								id='weight'
-								type='number'
-								placeholder='0 lbs'
-								{...register(`sets.${index}.weight` as const, {
-									required: true,
-									valueAsNumber: true,
-								})}
-								className='m-1 rounded border p-1'
-							/>
-							<label
-								className='text-center text-2xl font-bold text-white'
-								htmlFor='reps'
-							>
-								Reps:
-							</label>
-							<input
-								id='reps'
-								type='number'
-								placeholder='0 reps'
-								{...register(`sets.${index}.reps` as const, {
-									required: true,
-									valueAsNumber: true,
-								})}
-								className='m-1 rounded border p-1'
-							/>
-							<div className='col-span-2 flex justify-center'>
-								<button onClick={() => remove(index)} className='button'>
-									Remove Set
-								</button>
+								<label
+									htmlFor='weight'
+									className='text-center text-2xl font-bold text-white'
+								>
+									Weight
+								</label>
+								<input
+									id='weight'
+									type='number'
+									min={1}
+									placeholder='0 lbs'
+									{...register(`sets.${index}.weight` as const, {
+										required: true,
+										valueAsNumber: true,
+									})}
+									className='m-1 rounded border p-1'
+								/>
+								<label htmlFor='reps' className='text-center'>
+									Reps
+								</label>
+								<input
+									id='reps'
+									type='number'
+									min={1}
+									placeholder='0 reps'
+									{...register(`sets.${index}.reps` as const, {
+										required: true,
+										valueAsNumber: true,
+									})}
+									className='m-1 rounded border p-1'
+								/>
+								<div className='col-span-2 flex justify-center'>
+									<button onClick={() => remove(index)} className='button'>
+										Remove Set
+									</button>
+								</div>
 							</div>
-						</div>
-					)
-				})}
-				<div className='dark:blue-900 flex items-center justify-center gap-4 rounded bg-blue-700 py-2 dark:bg-blue-900'>
-					<div>
+						)
+					})}
+
+					<div className='dark:blue-900 flex items-center justify-center gap-4 rounded bg-blue-700 py-2 dark:bg-blue-900'>
 						<button
 							className='button'
 							onClick={() =>
@@ -131,8 +137,8 @@ const Set = ({exerciseId, workoutId}: SetProps) => {
 					<div className='flex justify-center'>
 						<button className='button'>Save Sets</button>
 					</div>
-				</div>
-			</form>
+				</form>
+			)}
 		</div>
 	)
 }

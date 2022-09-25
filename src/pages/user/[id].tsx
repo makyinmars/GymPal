@@ -4,6 +4,7 @@ import {useEffect} from 'react'
 import Head from 'next/head'
 import Menu from 'src/components/menu'
 import {trpc} from 'src/utils/trpc'
+import Spinner from '../../components/spinner'
 
 const UserId = () => {
 	const {data: session} = useSession()
@@ -25,7 +26,7 @@ const UserId = () => {
 				<div className='container mx-auto p-4'>
 					<h1>User</h1>
 					<div className=''>
-						{isLoading && <div>Loading...</div>}
+						{isLoading && <Spinner />}
 						{isError && <div>Error</div>}
 						{data && (
 							<div>

@@ -3,12 +3,15 @@ import Head from 'next/head'
 import {useRouter} from 'next/router'
 import {useEffect} from 'react'
 import {useForm, SubmitHandler} from 'react-hook-form'
+import Spinner from '../../components/spinner'
 import Chart from 'src/components/chart'
 
 import Set from 'src/components/set'
 import Menu from 'src/components/menu'
 import PredefinedExercises from 'src/components/predefined-exercises'
 import {trpc} from 'src/utils/trpc'
+import {GetServerSidePropsContext} from 'next'
+import {getServerAuthSession} from 'src/server/common/get-server-auth-session'
 
 interface CreateExercise {
 	workoutId: string
@@ -31,6 +34,12 @@ const WorkoutId = () => {
 
 	const deleteExercise = trpc.useMutation('exercise.deleteExercise')
 
+	const {
+		data: userData,
+		isError: userIsError,
+		isLoading: userIsLoading,
+	} = trpc.useQuery(['user.getUser'])
+
 	const onDeleteExercise = async (id: string) => {
 		try {
 			const deleted = await deleteExercise.mutateAsync({id})
@@ -42,7 +51,7 @@ const WorkoutId = () => {
 
 	const {data, isError, isLoading} = trpc.useQuery([
 		'workout.getWorkoutById',
-		{id: workoutId},
+		{id: router.query && (router.query.id as string)},
 	])
 
 	const {
@@ -53,7 +62,10 @@ const WorkoutId = () => {
 
 	const createExercise = trpc.useMutation('exercise.createExercise', {
 		onSuccess() {
-			utils.invalidateQueries(['exercise.getExercises', {workoutId: workoutId}])
+			utils.invalidateQueries([
+				'exercise.getExercises',
+				{workoutId: router.query && (router.query.id as string)},
+			])
 		},
 	})
 
@@ -64,11 +76,41 @@ const WorkoutId = () => {
 		} catch {}
 	}
 
+	const onCompleteWorkout = async () => {
+		if (userData && userData.phoneNumber) {
+			try {
+				// const message = `Great job on your workout! You can view your workout at https://gym-pal.vercel.app/view-workout/${workoutId}`
+				const message = `Great job on your workout! Don't forge to keep up the good work!`
+				const to = `+1${userData.phoneNumber}`
+				const data = {
+					message,
+					to,
+				}
+				await fetch('/api/twilio', {
+					headers: {
+						'Content-Type': 'application/json',
+					},
+					method: 'POST',
+					body: JSON.stringify(data),
+				})
+			} catch (e) {
+				console.log(e)
+			}
+		}
+	}
+
+	useEffect(() => {
+		utils.prefetchQuery(['workout.getWorkoutById', {id: workoutId}])
+		utils.prefetchQuery(['user.getUser'])
+		utils.prefetchQuery(['exercise.getExercises', {workoutId}])
+	}, [utils, workoutId])
+
 	useEffect(() => {
 		if (!session) {
 			router.push('/')
 		}
 	}, [router, session])
+
 	return (
 		<>
 			<Head>
@@ -76,7 +118,7 @@ const WorkoutId = () => {
 			</Head>
 			<Menu>
 				<div className='container mx-auto grid grid-cols-1 gap-4 p-4'>
-					{isLoading && <div>Loading...</div>}
+					{isLoading && <Spinner />}
 					{isError && <div>Error</div>}
 					{data && (
 						<div className='mx-auto'>
@@ -91,6 +133,8 @@ const WorkoutId = () => {
 							<PredefinedExercises type={data.type} workoutId={workoutId} />
 						)}
 					</div>
+					{data && <Chart workoutId={workoutId} />}
+
 					<form
 						className='rounded bg-blue-700 p-4 dark:bg-slate-900'
 						onSubmit={handleSubmit(onSubmit)}
@@ -144,6 +188,7 @@ const WorkoutId = () => {
 										<Set
 											exerciseId={exercise.id}
 											workoutId={exercise.workoutId}
+											showForm={true}
 										/>
 										<div className='flex justify-center'>
 											<button
@@ -159,6 +204,14 @@ const WorkoutId = () => {
 								<div className='col-span-3 text-center'>No exercises</div>
 							)}
 						</div>
+
+						{exercisesData && exercisesData.length >= 1 && (
+							<div className='flex justify-center'>
+								<button className='button' onClick={() => onCompleteWorkout()}>
+									Complete workout
+								</button>
+							</div>
+						)}
 					</div>
 				</div>
 			</Menu>
@@ -167,3 +220,11 @@ const WorkoutId = () => {
 }
 
 export default WorkoutId
+
+export const getServerSideProps = async (ctx: GetServerSidePropsContext) => {
+	return {
+		props: {
+			session: await getServerAuthSession(ctx),
+		},
+	}
+}

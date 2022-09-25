@@ -24,12 +24,14 @@ export const userRouter = createProtectedRouter()
 		},
 	})
 	.query('getUser', {
-		async resolve({ctx}) {
-			return await ctx.prisma.user.findUnique({
-				where: {
-					email: ctx.session.user.email as string | undefined,
-				},
-			})
+		resolve({ctx}) {
+			if (ctx.session && ctx.session.user) {
+				return ctx.prisma.user.findUnique({
+					where: {
+						email: ctx.session.user.email as string | undefined,
+					},
+				})
+			}
 		},
 	})
 	.mutation('deleteUser', {
@@ -48,15 +50,28 @@ export const userRouter = createProtectedRouter()
 		input: z.object({
 			id: z.string(),
 			name: z.string(),
+			phoneNumber: z.string().optional(),
 		}),
 		async resolve({ctx, input}) {
-			return await ctx.prisma.user.update({
-				where: {
-					id: input.id,
-				},
-				data: {
-					name: input.name,
-				},
-			})
+			if (input.phoneNumber) {
+				return await ctx.prisma.user.update({
+					where: {
+						id: input.id,
+					},
+					data: {
+						name: input.name,
+						phoneNumber: input.phoneNumber,
+					},
+				})
+			} else {
+				return await ctx.prisma.user.update({
+					where: {
+						id: input.id,
+					},
+					data: {
+						name: input.name,
+					},
+				})
+			}
 		},
 	})

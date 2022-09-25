@@ -4,6 +4,7 @@ import {useEffect} from 'react'
 import Head from 'next/head'
 import Menu from 'src/components/menu'
 import {trpc} from 'src/utils/trpc'
+import Spinner from '../../components/spinner'
 
 const ViewWorkouts = () => {
 	const {data: session} = useSession()
@@ -43,7 +44,9 @@ const ViewWorkouts = () => {
 					<h1 className='text-center text-2xl font-bold'>View Workouts</h1>
 					<div className='grid grid-cols-1 gap-4 rounded md:grid-cols-3'>
 						{isLoading && (
-							<div className='col-span-3 text-center'>Loading...</div>
+							<div className='col-span-3 text-center'>
+								<Spinner />
+							</div>
 						)}
 						{isError && <div className='col-span-3 text-center'>Error</div>}
 						{data && data.length >= 1 ? (
