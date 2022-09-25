@@ -19,6 +19,7 @@
 		"@trpc/next": "^9.27.2",
 		"@trpc/react": "^9.27.2",
 		"@trpc/server": "^9.27.2",
+		"chart.js": "^3.9.1",
 		"lint-staged": "^13.0.3",
 		"next": "12.3.1",
 		"next-auth": "^4.10.3",
