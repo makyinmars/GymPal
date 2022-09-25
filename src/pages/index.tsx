@@ -1,6 +1,7 @@
 import type {GetServerSidePropsContext, NextPage} from 'next'
 import Head from 'next/head'
 import {useSession, signIn, signOut} from 'next-auth/react'
+import {FaDiscord} from 'react-icons/fa'
 import {useRouter} from 'next/router'
 
 import {getServerAuthSession} from 'src/server/common/get-server-auth-session'
@@ -62,6 +63,36 @@ const Home: NextPage = () => {
 						</button>
 					</div>
 				)}
+				<div className='min-h-screen'>
+					<div className='sticky top-[80vh] flex justify-around bg-black p-4'>
+						<FaDiscord className='text-8xl text-purple-400' />
+						<div className='cols-8 grid grid'>
+							<div className='text-purple-400'>makyfj</div>
+							<div className='flex justify-around bg-purple-400 p-1'>
+								<div>Franklin</div>
+							</div>
+						</div>
+
+						<div className='cols-8 grid grid'>
+							<div className='text-purple-400'>CDDR1</div>
+							<div className='flex justify-around bg-purple-400 p-1'>
+								<div>Carlos</div>
+							</div>
+						</div>
+
+						<div className='cols-8 grid grid'>
+							<div className='text-purple-400'>KyoshiNoda</div>
+							<div className='flex justify-around bg-purple-400 p-1'>
+								Kyoshi
+							</div>
+						</div>
+
+						<div className='cols-8 grid grid'>
+							<div className='text-purple-400'>Keiaus</div>
+							<div className='flex justify-around bg-purple-400 p-1'>Keith</div>
+						</div>
+					</div>
+				</div>
 			</main>
 		</>
 	)
