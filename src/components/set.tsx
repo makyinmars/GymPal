@@ -59,13 +59,13 @@ const Set = ({exerciseId, workoutId}: SetProps) => {
 				))}
 			<form
 				onSubmit={handleSubmit(onSubmit)}
-				className='flex flex-col gap-4 rounded p-2 shadow-md shadow-slate-400'
+				className='flex flex-col gap-4 rounded p-2'
 			>
 				{fields.map((field, index) => {
 					return (
 						<div
 							key={field.id}
-							className='grid grid-cols-2 items-center gap-2 rounded bg-slate-200 p-2'
+							className='grid grid-cols-2 items-center gap-2 rounded bg-slate-400 p-2'
 						>
 							<label className='text-center' htmlFor='weight'>
 								Weight
@@ -116,7 +116,7 @@ const Set = ({exerciseId, workoutId}: SetProps) => {
 						</button>
 					</div>
 					<div className='flex justify-center'>
-						<button className='button'>Submit</button>
+						<button className='button'>Save Sets</button>
 					</div>
 				</div>
 			</form>

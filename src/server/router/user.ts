@@ -23,3 +23,40 @@ export const userRouter = createProtectedRouter()
 			})
 		},
 	})
+	.query('getUser', {
+		async resolve({ctx}) {
+			return await ctx.prisma.user.findUnique({
+				where: {
+					email: ctx.session.user.email as string | undefined,
+				},
+			})
+		},
+	})
+	.mutation('deleteUser', {
+		input: z.object({
+			id: z.string(),
+		}),
+		async resolve({ctx, input}) {
+			return await ctx.prisma.user.delete({
+				where: {
+					id: input.id,
+				},
+			})
+		},
+	})
+	.mutation('updateUser', {
+		input: z.object({
+			id: z.string(),
+			name: z.string(),
+		}),
+		async resolve({ctx, input}) {
+			return await ctx.prisma.user.update({
+				where: {
+					id: input.id,
+				},
+				data: {
+					name: input.name,
+				},
+			})
+		},
+	})
