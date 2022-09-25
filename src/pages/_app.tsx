@@ -10,6 +10,7 @@ import {ThemeProvider} from 'next-themes'
 import Head from 'next/head'
 import type {AppRouter} from '../server/router'
 import '../styles/globals.css'
+import Menu from 'src/components/menu'
 
 const MyApp: AppType<{session: Session | null}> = ({
 	Component,

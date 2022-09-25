@@ -4,6 +4,7 @@ import {useRouter} from 'next/router'
 import {useEffect} from 'react'
 
 import {getServerAuthSession} from 'src/server/common/get-server-auth-session'
+import Menu from 'src/components/menu'
 
 import {trpc} from 'src/utils/trpc'
 import Head from 'next/head'
@@ -23,10 +24,12 @@ const UserId = () => {
 			<Head>
 				<title>Settings</title>
 			</Head>
-			<div className='container mx-auto p-4'>
-				<h1>User</h1>
-				<div className=''></div>
-			</div>
+			<Menu>
+				<div className='container mx-auto p-4'>
+					<h1>User</h1>
+					<div className=''></div>
+				</div>
+			</Menu>
 		</>
 	)
 }
