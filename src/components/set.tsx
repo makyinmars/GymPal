@@ -28,12 +28,17 @@ const Set = ({exerciseId, workoutId}: SetProps) => {
 		},
 		mode: 'onBlur',
 	})
+	const utils = trpc.useContext()
 	const {fields, append, remove} = useFieldArray({
 		name: 'sets',
 		control,
 	})
 
-	const createSets = trpc.useMutation('set.createSets')
+	const createSets = trpc.useMutation('set.createSets', {
+		onSuccess() {
+			utils.invalidateQueries(['set.getSetsByExerciseId', {exerciseId}])
+		},
+	})
 
 	const {data, isError, isLoading} = trpc.useQuery([
 		'set.getSetsByExerciseId',
@@ -44,7 +49,9 @@ const Set = ({exerciseId, workoutId}: SetProps) => {
 			data.exerciseId = exerciseId
 			data.workoutId = workoutId
 			const sets = await createSets.mutateAsync(data)
-			console.log(sets)
+			if (sets) {
+				utils.invalidateQueries(['set.getSetsByExerciseId', {exerciseId}])
+			}
 		} catch {}
 	}
 	return (

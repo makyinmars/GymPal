@@ -43,24 +43,35 @@ const Chart = ({workoutId}: ChartProps) => {
 		isError: exercisesIsError,
 		isLoading: exercisesIsLoading,
 	} = trpc.useQuery(['exercise.getExercises', {workoutId}])
-	const labels = [
-		'January',
-		'February',
-		'March',
-		'April',
-		'May',
-		'June',
-		'July',
-	]
 
 	console.log(exercisesData)
+
+	const totalWeight = exercisesData?.reduce((acc, exercise) => {
+		const sets = exercise.sets.reduce((acc, set) => {
+			return acc + set.weight
+		}, 0)
+		return acc + sets
+	}, 0)
+
+	// Create a function that returns an array of object with the exercise name as the key and the total weight as the value
+	const exerciseWeight = exercisesData?.reduce((acc, exercise) => {
+		const sets = exercise.sets.reduce((acc, set) => {
+			return acc + set.weight
+		}, 0)
+		return [{...acc, [exercise.name]: sets}]
+	}, {})
+
+	console.log('exerciseWeight', exerciseWeight)
+
+	// Create a function that returns all the names of the exercises
+	const exerciseNames = exercisesData?.map((exercise) => exercise.name)
 
 	const fake = []
 	for (let i = 0; i < 50; i++) {
 		fake[i] = 1 * 100
 	}
 	const data = {
-		labels,
+		labels: exerciseNames,
 		datasets: [
 			{
 				label: 'Dataset 1',
