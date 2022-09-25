@@ -53,7 +53,7 @@ const Home: NextPage = () => {
 						<div className='flex min-h-screen flex-row items-center justify-center'>
 							<div className='col-8 flex flex'>
 								<div className='text-2xl'>
-									<p>Sign In </p>
+									<p>Sign In</p>
 								</div>
 							</div>
 
@@ -123,7 +123,7 @@ const Home: NextPage = () => {
 								<div className='text-purple-400'>Keiaus</div>
 							</a>
 							<div className='flex rounded-full bg-purple-400 p-1 align-top'>
-								Keith :D
+								Keith
 							</div>
 						</div>
 					</div>
