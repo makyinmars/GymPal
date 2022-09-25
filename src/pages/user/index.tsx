@@ -4,6 +4,7 @@ import {useRouter} from 'next/router'
 import {useEffect} from 'react'
 import Menu from 'src/components/menu'
 import Head from 'next/head'
+import Spinner from '../../components/spinner'
 
 import {getServerAuthSession} from 'src/server/common/get-server-auth-session'
 import {trpc} from 'src/utils/trpc'
@@ -50,7 +51,7 @@ const UserId = () => {
 			<Menu>
 				<div className='container mx-auto flex flex-col justify-center gap-4 p-4'>
 					<h1 className='text-center font-bold'>User</h1>
-					{isLoading && <div>Loading...</div>}
+					{isLoading && <Spinner />}
 					{isError && <div>Error</div>}
 					{data && (
 						<div className='flex flex-col items-center justify-center gap-4'>
