@@ -89,6 +89,7 @@ const WorkoutId = () => {
 					{data && data.type && (
 						<PredefinedExercises type={data.type} workoutId={workoutId} />
 					)}
+					{data && <Chart workoutId={workoutId} />}
 
 					<form
 						className='rounded bg-slate-500 p-4 dark:bg-slate-400'
