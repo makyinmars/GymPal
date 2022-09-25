@@ -31,6 +31,12 @@ const WorkoutId = () => {
 
 	const deleteExercise = trpc.useMutation('exercise.deleteExercise')
 
+	const {
+		data: userData,
+		isError: userIsError,
+		isLoading: userIsLoading,
+	} = trpc.useQuery(['user.getUser'])
+
 	const onDeleteExercise = async (id: string) => {
 		try {
 			const deleted = await deleteExercise.mutateAsync({id})
@@ -62,6 +68,28 @@ const WorkoutId = () => {
 			data.workoutId = workoutId
 			await createExercise.mutateAsync(data)
 		} catch {}
+	}
+
+	const onCompleteWorkout = async () => {
+		if (userData && userData.phoneNumber) {
+			try {
+				const message = `Great job on your workout! You can view your workout at https://gym-pal.vercel.app/view/workout/${workoutId}`
+				const to = `+1${userData.phoneNumber}`
+				const data = {
+					message,
+					to,
+				}
+				const result = await fetch('/api/twilio', {
+					headers: {
+						'Content-Type': 'application/json',
+					},
+					method: 'POST',
+					body: JSON.stringify(data),
+				})
+			} catch (e) {
+				console.log(e)
+			}
+		}
 	}
 
 	useEffect(() => {
@@ -156,6 +184,14 @@ const WorkoutId = () => {
 								<div className='col-span-3 text-center'>No exercises</div>
 							)}
 						</div>
+
+						{exercisesData && exercisesData.length >= 1 && (
+							<div className='flex justify-center'>
+								<button className='button' onClick={() => onCompleteWorkout()}>
+									Complete workout
+								</button>
+							</div>
+						)}
 					</div>
 				</div>
 			</Menu>
