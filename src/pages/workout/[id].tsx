@@ -3,6 +3,7 @@ import Head from 'next/head'
 import {useRouter} from 'next/router'
 import {useEffect} from 'react'
 import {useForm, SubmitHandler} from 'react-hook-form'
+import Spinner from '../../components/spinner'
 import Chart from 'src/components/chart'
 
 import Set from 'src/components/set'
@@ -73,13 +74,13 @@ const WorkoutId = () => {
 	const onCompleteWorkout = async () => {
 		if (userData && userData.phoneNumber) {
 			try {
-				const message = `Great job on your workout! You can view your workout at https://gym-pal.vercel.app/view/workout/${workoutId}`
+				const message = `Great job on your workout! You can view your workout at https://gym-pal.vercel.app/view-workout/${workoutId}`
 				const to = `+1${userData.phoneNumber}`
 				const data = {
 					message,
 					to,
 				}
-				const result = await fetch('/api/twilio', {
+				await fetch('/api/twilio', {
 					headers: {
 						'Content-Type': 'application/json',
 					},
@@ -104,7 +105,7 @@ const WorkoutId = () => {
 			</Head>
 			<Menu>
 				<div className='container mx-auto grid grid-cols-1 gap-4 p-4'>
-					{isLoading && <div>Loading...</div>}
+					{isLoading && <Spinner />}
 					{isError && <div>Error</div>}
 					{data && (
 						<div className='mx-auto'>
@@ -169,6 +170,7 @@ const WorkoutId = () => {
 										<Set
 											exerciseId={exercise.id}
 											workoutId={exercise.workoutId}
+											showForm={true}
 										/>
 										<div className='flex justify-center'>
 											<button
