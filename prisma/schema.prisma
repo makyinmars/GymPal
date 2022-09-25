@@ -67,6 +67,7 @@ model VerificationToken {
 model Workout {
   id          String     @id @default(cuid())
   name        String
+  type        String?
   description String
   createdAt   DateTime   @default(now())
   updatedAt   DateTime   @updatedAt
