@@ -48,9 +48,9 @@ const CreateWorkout = () => {
 			</Head>
 			<Menu>
 				<div className='container mx-auto flex flex-col gap-4 p-4'>
-					<h1 className='text-center text-7xl font-bold'>Create Workout</h1>
+					<h1 className='text-center text-2xl font-bold'>Create Workout</h1>
 					<PredefinedWorkout userId={userId} />
-					<h2 className='text-center text-3xl font-bold'>
+					<h2 className='text-center text-xl font-bold'>
 						Create your custom workout
 					</h2>
 					<form
@@ -59,7 +59,7 @@ const CreateWorkout = () => {
 					>
 						<div className='mb-4'>
 							<label
-								className='mb-2 block text-4xl font-bold dark:text-white'
+								className='mb-2 block font-bold dark:text-white'
 								htmlFor='name'
 							>
 								Name
@@ -75,7 +75,7 @@ const CreateWorkout = () => {
 						</div>
 						<div className='mb-4'>
 							<label
-								className='mb-2 block text-4xl font-bold dark:text-white'
+								className='mb-2 block font-bold dark:text-white'
 								htmlFor='description'
 							>
 								Description

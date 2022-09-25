@@ -25,7 +25,7 @@ const Menu = ({children}: MenuProps) => {
 					<div className='flex flex-col'>
 						<div>
 							<Dropdown.Button className='flex items-center justify-center rounded border-2 bg-black bg-opacity-20 p-1 hover:bg-opacity-30'>
-								<GiHamburgerMenu />
+								<GiHamburgerMenu className='icon' />
 							</Dropdown.Button>
 						</div>
 						<Transition
@@ -37,7 +37,7 @@ const Menu = ({children}: MenuProps) => {
 							leaveFrom='transform opacity-100 scale-100'
 							leaveTo='transform opacity-0 scale-95'
 						>
-							<Dropdown.Items className='mt-0.5 flex flex-col rounded-md bg-white'>
+							<Dropdown.Items className='left-50 w-46 absolute top-12 mt-2 origin-top-left rounded-md bg-white shadow-lg'>
 								{links.map((link, i) => (
 									<Dropdown.Item key={link.href} as={Fragment}>
 										{({active}) => (

@@ -26,7 +26,9 @@ const Home: NextPage = () => {
 					{session ? (
 						<div className='flex flex-col items-center justify-around gap-4'>
 							<div className='flex flex-col gap-4'>
-								<p>Logged in as {session?.user?.email}</p>
+								<p className='mt-2 text-xl'>
+									Logged in as {session?.user?.email}
+								</p>
 							</div>
 							<div className='flex items-center gap-4'>
 								<p
@@ -92,7 +94,7 @@ const Footer = () => {
 			<h2 className='my-4 text-center text-2xl font-bold text-slate-700 dark:text-slate-200'>
 				Check us out!
 			</h2>
-			<footer className='my-2 flex justify-around'>
+			<footer className='my-2 flex flex-col items-center justify-around gap-4 md:flex-row'>
 				<div className='flex flex-col items-center justify-center rounded bg-slate-300 p-2 dark:bg-slate-700'>
 					<a href='https://github.com/makyfj' target='_blank' rel='noreferrer'>
 						<FaGithub className='icon' />

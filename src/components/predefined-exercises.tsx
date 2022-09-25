@@ -27,28 +27,28 @@ const PredefinedExercises = ({type, workoutId}: PredefinedWorkoutProps) => {
 	}
 	return (
 		<div className='flex flex-col gap-2'>
-			<h1 className='text-center text-lg text-4xl font-bold	'>
+			<h1 className='text-center text-lg font-bold'>
 				Suggested Exercises for {type}
 			</h1>
-			<div className='grid grid-cols-3 gap-4'>
+			<div className='grid grid-cols-1 gap-4 md:grid-cols-3'>
 				{type === 'Arms' &&
 					armWorkout.exercises.map((exercise, i) => (
 						<div key={i} className='rounded bg-slate-700 p-2 dark:bg-blue-900'>
-							<h2
-								className='text-center text-4xl font-bold text-white'
+							<p
+								className='text-center font-bold text-white'
 								onClick={() => onCreateExercise(exercise.name)}
 							>
 								{exercise.name}
-							</h2>
+							</p>
 						</div>
 					))}
 			</div>
-			<div className='grid grid-cols-3 gap-4'>
+			<div className='grid grid-cols-1 gap-4 md:grid-cols-3'>
 				{type === 'Legs' &&
 					legWorkout.exercises.map((exercise, i) => (
 						<div key={i} className='rounded bg-slate-700 p-2'>
 							<h2
-								className='text-red-white text-center text-4xl hover:text-blue-400'
+								className='text-red-white text-center hover:text-blue-400'
 								onClick={() => onCreateExercise(exercise.name)}
 							>
 								{exercise.name}
@@ -56,12 +56,12 @@ const PredefinedExercises = ({type, workoutId}: PredefinedWorkoutProps) => {
 						</div>
 					))}
 			</div>
-			<div className='grid grid-cols-3 gap-4'>
+			<div className='grid grid-cols-1 gap-4 md:grid-cols-3'>
 				{type === 'Back' &&
 					backWorkout.exercises.map((exercise, i) => (
 						<div key={i} className='rounded bg-slate-700 p-2'>
 							<h2
-								className='text-center text-4xl text-white hover:text-blue-400'
+								className='text-center text-white hover:text-blue-400'
 								onClick={() => onCreateExercise(exercise.name)}
 							>
 								{exercise.name}
@@ -69,15 +69,15 @@ const PredefinedExercises = ({type, workoutId}: PredefinedWorkoutProps) => {
 						</div>
 					))}
 			</div>
-			<div className='grid grid-cols-3 gap-4'>
+			<div className='grid grid-cols-1 gap-4 md:grid-cols-3'>
 				{type === 'Shoulder' &&
-					shoulderWorkout.exercises.map((exercise, i) => (
+					shoulderWorkout.exercises.map((shoulder, i) => (
 						<div key={i} className='rounded bg-slate-700 p-2'>
 							<h2
-								className='text-center text-4xl text-white hover:text-blue-400'
-								onClick={() => onCreateExercise(exercise.name)}
+								className='text-center text-white hover:text-blue-400'
+								onClick={() => onCreateExercise(shoulder.name)}
 							>
-								{exercise.name}
+								{shoulder.name}
 							</h2>
 						</div>
 					))}

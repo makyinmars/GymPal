@@ -1,3 +1,19 @@
+# Gym Pal
+
+## How to run the project in your personal computer
+
+1. `git clone https://github.com/makyfj/GymPal.git`
+
+2. `cd GymPal`
+
+3. `yarn` -> Install packages
+
+4. Create a .env file -> Follow the .env.exmaple file
+
+5. Finally run `yarn dev`
+
+6. Chefsssss Kiss :D App
+
 # Create T3 App
 
 This is an app bootstrapped according to the [init.tips](https://init.tips) stack, also known as the T3-Stack.

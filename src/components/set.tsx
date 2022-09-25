@@ -81,10 +81,7 @@ const Set = ({exerciseId, workoutId, showForm}: SetProps) => {
 								key={field.id}
 								className='grid grid-cols-2 items-center gap-2 rounded bg-blue-700 p-2 dark:bg-blue-900'
 							>
-								<label
-									htmlFor='weight'
-									className='text-center text-2xl font-bold text-white'
-								>
+								<label htmlFor='weight' className='text-center text-white'>
 									Weight
 								</label>
 								<input
@@ -98,7 +95,7 @@ const Set = ({exerciseId, workoutId, showForm}: SetProps) => {
 									})}
 									className='m-1 rounded border p-1'
 								/>
-								<label htmlFor='reps' className='text-center'>
+								<label htmlFor='reps' className='text-center text-white'>
 									Reps
 								</label>
 								<input
@@ -113,7 +110,10 @@ const Set = ({exerciseId, workoutId, showForm}: SetProps) => {
 									className='m-1 rounded border p-1'
 								/>
 								<div className='col-span-2 flex justify-center'>
-									<button onClick={() => remove(index)} className='button'>
+									<button
+										onClick={() => remove(index)}
+										className='button hover:bg-blue-400'
+									>
 										Remove Set
 									</button>
 								</div>
@@ -123,7 +123,7 @@ const Set = ({exerciseId, workoutId, showForm}: SetProps) => {
 
 					<div className='dark:blue-900 flex items-center justify-center gap-4 rounded bg-blue-700 py-2 dark:bg-blue-900'>
 						<button
-							className='button'
+							className='button hover:bg-blue-400'
 							onClick={() =>
 								append({
 									weight: 0,
