@@ -24,7 +24,7 @@ const ViewWorkouts = () => {
 			<Menu>
 				<div className='container mx-auto flex flex-col gap-4 p-4'>
 					<h1 className='text-center text-2xl font-bold'>View Workouts</h1>
-					<div className='grid grid-cols-3 gap-4 rounded bg-slate-400 p-4'>
+					<div className='grid grid-cols-3 gap-4 rounded bg-blue-300 p-4 dark:bg-slate-900'>
 						{isLoading && (
 							<div className='col-span-3 text-center'>Loading...</div>
 						)}
@@ -33,7 +33,7 @@ const ViewWorkouts = () => {
 							data.map((workout, i) => (
 								<div
 									key={i}
-									className='flex cursor-pointer flex-col rounded bg-slate-300 p-1'
+									className='flex cursor-pointer flex-col rounded bg-slate-700 p-1 text-white dark:bg-blue-900'
 									onClick={() => router.push(`/workout/${workout.id}`)}
 								>
 									<p className='text-center text-lg font-bold'>
