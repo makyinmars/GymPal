@@ -10,7 +10,6 @@ import {
 import {Bar} from 'react-chartjs-2'
 
 import {trpc} from 'src/utils/trpc'
-// import faker from 'faker';
 
 interface ChartProps {
 	workoutId: string
@@ -44,43 +43,38 @@ const Chart = ({workoutId}: ChartProps) => {
 		isLoading: exercisesIsLoading,
 	} = trpc.useQuery(['exercise.getExercises', {workoutId}])
 
-	console.log(exercisesData)
-
-	const totalWeight = exercisesData?.reduce((acc, exercise) => {
-		const sets = exercise.sets.reduce((acc, set) => {
-			return acc + set.weight
-		}, 0)
-		return acc + sets
-	}, 0)
-
-	// Create a function that returns an array of object with the exercise name as the key and the total weight as the value
-	const exerciseWeight = exercisesData?.reduce((acc, exercise) => {
-		const sets = exercise.sets.reduce((acc, set) => {
-			return acc + set.weight
-		}, 0)
-		return [{...acc, [exercise.name]: sets}]
-	}, {})
-
-	console.log('exerciseWeight', exerciseWeight)
-
 	// Create a function that returns all the names of the exercises
 	const exerciseNames = exercisesData?.map((exercise) => exercise.name)
 
-	const fake = []
-	for (let i = 0; i < 50; i++) {
-		fake[i] = 1 * 100
-	}
+	const totalWeight: any = []
+	exercisesData?.forEach((exercise) => {
+		let weightSum = 0
+		exercise.sets.forEach((set) => {
+			weightSum += set.weight
+		})
+		totalWeight.push(weightSum)
+	})
+
+	const totalReps: any = []
+	exercisesData?.forEach((exercise) => {
+		let repsSum = 0
+		exercise.sets.forEach((set) => {
+			repsSum += set.reps
+		})
+		totalReps.push(repsSum)
+	})
+
 	const data = {
 		labels: exerciseNames,
 		datasets: [
 			{
-				label: 'Dataset 1',
-				data: fake,
+				label: 'Repetitions',
+				data: totalReps,
 				backgroundColor: 'rgba(255, 99, 132, 0.5)',
 			},
 			{
-				label: 'Dataset 2',
-				data: fake,
+				label: 'Weight',
+				data: totalWeight,
 				backgroundColor: 'rgba(53, 162, 235, 0.5)',
 			},
 		],
