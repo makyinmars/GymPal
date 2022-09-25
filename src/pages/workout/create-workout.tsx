@@ -54,11 +54,14 @@ const CreateWorkout = () => {
 						Create your custom workout
 					</h2>
 					<form
-						className='rounded bg-slate-500 p-4 dark:bg-slate-200'
+						className='rounded bg-blue-300 p-4 dark:bg-slate-900'
 						onSubmit={handleSubmit(onSubmit)}
 					>
 						<div className='mb-4'>
-							<label className='mb-2 block text-sm font-bold' htmlFor='name'>
+							<label
+								className='mb-2 block text-4xl font-bold dark:text-white'
+								htmlFor='name'
+							>
 								Name
 							</label>
 							<input
@@ -72,7 +75,7 @@ const CreateWorkout = () => {
 						</div>
 						<div className='mb-4'>
 							<label
-								className='mb-2 block text-sm font-bold'
+								className='mb-2 block text-4xl font-bold dark:text-white'
 								htmlFor='description'
 							>
 								Description
