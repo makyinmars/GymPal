@@ -3,6 +3,7 @@ import Head from 'next/head'
 import {useRouter} from 'next/router'
 import {useEffect} from 'react'
 import {useForm, SubmitHandler} from 'react-hook-form'
+import Spinner from '../../components/spinner'
 import Chart from 'src/components/chart'
 
 import Set from 'src/components/set'
@@ -104,7 +105,7 @@ const WorkoutId = () => {
 			</Head>
 			<Menu>
 				<div className='container mx-auto grid grid-cols-1 gap-4 p-4'>
-					{isLoading && <div>Loading...</div>}
+					{isLoading && <Spinner />}
 					{isError && <div>Error</div>}
 					{data && (
 						<div className='mx-auto'>
