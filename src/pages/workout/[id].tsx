@@ -73,13 +73,13 @@ const WorkoutId = () => {
 	const onCompleteWorkout = async () => {
 		if (userData && userData.phoneNumber) {
 			try {
-				const message = `Great job on your workout! You can view your workout at https://gym-pal.vercel.app/view/workout/${workoutId}`
+				const message = `Great job on your workout! You can view your workout at https://gym-pal.vercel.app/view-workout/${workoutId}`
 				const to = `+1${userData.phoneNumber}`
 				const data = {
 					message,
 					to,
 				}
-				const result = await fetch('/api/twilio', {
+				await fetch('/api/twilio', {
 					headers: {
 						'Content-Type': 'application/json',
 					},
@@ -169,6 +169,7 @@ const WorkoutId = () => {
 										<Set
 											exerciseId={exercise.id}
 											workoutId={exercise.workoutId}
+											showForm={true}
 										/>
 										<div className='flex justify-center'>
 											<button
