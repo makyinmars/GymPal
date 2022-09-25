@@ -3,6 +3,7 @@ import Head from 'next/head'
 import {useRouter} from 'next/router'
 import {useEffect} from 'react'
 import {useForm, SubmitHandler} from 'react-hook-form'
+import Chart from 'src/components/chart'
 
 import Set from 'src/components/set'
 import Menu from 'src/components/menu'
