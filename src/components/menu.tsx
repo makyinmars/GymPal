@@ -22,37 +22,39 @@ const Menu = ({children}: MenuProps) => {
 		<div className='container mx-auto p-4'>
 			<div className='flex items-center justify-around'>
 				<Dropdown>
-					<div>
-						<Dropdown.Button className='flex items-center justify-center rounded border-2 border-white p-1'>
-							<GiHamburgerMenu />
-						</Dropdown.Button>
+					<div className='flex flex-col'>
+						<div>
+							<Dropdown.Button className='flex items-center justify-center rounded border-2 bg-black bg-opacity-20 p-1 hover:bg-opacity-30'>
+								<GiHamburgerMenu />
+							</Dropdown.Button>
+						</div>
+						<Transition
+							as={Fragment}
+							enter='transition ease-out duration-100'
+							enterFrom='transform opacity-0 scale-95'
+							enterTo='transform opacity-100 scale-100'
+							leave='transition ease-in duration-75'
+							leaveFrom='transform opacity-100 scale-100'
+							leaveTo='transform opacity-0 scale-95'
+						>
+							<Dropdown.Items className='mt-0.5 flex flex-col rounded-md bg-white'>
+								{links.map((link, i) => (
+									<Dropdown.Item key={link.href} as={Fragment}>
+										{({active}) => (
+											<div>
+												<Link href={link.href}>
+													<a className='flex items-center gap-1 rounded-md bg-white py-0.5 px-2 hover:bg-gray-300 dark:text-black'>
+														{link.icon}
+														{link.label}
+													</a>
+												</Link>
+											</div>
+										)}
+									</Dropdown.Item>
+								))}
+							</Dropdown.Items>
+						</Transition>
 					</div>
-					<Transition
-						as={Fragment}
-						enter='transition ease-out duration-100'
-						enterFrom='transform opacity-0 scale-95'
-						enterTo='transform opacity-100 scale-100'
-						leave='transition ease-in duration-75'
-						leaveFrom='transform opacity-100 scale-100'
-						leaveTo='transform opacity-0 scale-95'
-					>
-						<Dropdown.Items className='flex flex-col'>
-							{links.map((link, i) => (
-								<Dropdown.Item key={link.href} as={Fragment}>
-									{({active}) => (
-										<div>
-											<Link href={link.href}>
-												<a className='flex items-center gap-1'>
-													{link.icon}
-													{link.label}
-												</a>
-											</Link>
-										</div>
-									)}
-								</Dropdown.Item>
-							))}
-						</Dropdown.Items>
-					</Transition>
 				</Dropdown>
 				<Theme />
 			</div>
