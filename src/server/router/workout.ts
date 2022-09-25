@@ -111,3 +111,29 @@ export const workoutRouter = createProtectedRouter()
 			}
 		},
 	})
+	.mutation('createPredefinedWorkout', {
+		input: z.object({
+			userId: z.string(),
+			name: z.string(),
+			description: z.string(),
+			type: z.string(),
+		}),
+		async resolve({ctx, input}) {
+			const newWorkout = await ctx.prisma.workout.create({
+				data: {
+					userId: input.userId,
+					name: input.name,
+					description: input.description,
+				},
+			})
+
+			if (newWorkout) {
+				return newWorkout
+			} else {
+				throw new TRPCError({
+					code: 'CONFLICT',
+					message: 'Workout not created',
+				})
+			}
+		},
+	})
