@@ -113,7 +113,10 @@ const WorkoutId = () => {
 									<h3 className='text-center text-xl font-bold'>
 										{exercise.name}
 									</h3>
-									<Set exerciseId={exercise.id} />
+									<Set
+										exerciseId={exercise.id}
+										workoutId={exercise.workoutId}
+									/>
 								</div>
 							))
 						) : (

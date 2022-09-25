@@ -1,5 +1,15 @@
 import {createProtectedRouter} from './context'
 import {z} from 'zod'
+import {Prisma} from '@prisma/client'
+
+const defaultExerciseSelect = Prisma.validator<Prisma.ExerciseSelect>()({
+	id: true,
+	name: true,
+	sets: true,
+	workoutId: true,
+	createdAt: true,
+	updatedAt: true,
+})
 
 export const exerciseRouter = createProtectedRouter()
 	.query('getExerciseById', {
@@ -19,6 +29,7 @@ export const exerciseRouter = createProtectedRouter()
 				where: {
 					workoutId: input.workoutId,
 				},
+				select: defaultExerciseSelect,
 			})
 		},
 	})

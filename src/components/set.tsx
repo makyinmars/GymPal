@@ -1,21 +1,22 @@
 import {useForm, useFieldArray, SubmitHandler} from 'react-hook-form'
-import {FcFullTrash} from 'react-icons/fc'
 
 import {trpc} from 'src/utils/trpc'
 
 interface SetProps {
 	exerciseId: string
+	workoutId: string
 }
 
 interface SetInputs {
 	exerciseId: string
+	workoutId: string
 	sets: {
 		weight: number
 		reps: number
 	}[]
 }
 
-const Set = ({exerciseId}: SetProps) => {
+const Set = ({exerciseId, workoutId}: SetProps) => {
 	const {
 		register,
 		control,
@@ -41,7 +42,7 @@ const Set = ({exerciseId}: SetProps) => {
 	const onSubmit: SubmitHandler<SetInputs> = async (data) => {
 		try {
 			data.exerciseId = exerciseId
-
+			data.workoutId = workoutId
 			const sets = await createSets.mutateAsync(data)
 			console.log(sets)
 		} catch {}
