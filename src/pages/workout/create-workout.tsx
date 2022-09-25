@@ -5,6 +5,7 @@ import {useForm, SubmitHandler} from 'react-hook-form'
 import Head from 'next/head'
 import Menu from 'src/components/menu'
 import {trpc} from 'src/utils/trpc'
+import PredefinedWorkout from 'src/components/predefined-workout'
 interface CreateWorkout {
 	userId: string
 	name: string
@@ -46,8 +47,12 @@ const CreateWorkout = () => {
 				<title>Create Workout</title>
 			</Head>
 			<Menu>
-				<div className='container mx-auto p-4'>
-					<h1 className='text-center'>Create Workout</h1>
+				<div className='container mx-auto flex flex-col gap-4 p-4'>
+					<h1 className='text-center text-3xl font-bold'>Create Workout</h1>
+					<PredefinedWorkout userId={userId} />
+					<h2 className='text-center text-xl font-bold'>
+						Create your custom workout
+					</h2>
 					<form
 						className='rounded bg-slate-500 p-4 dark:bg-slate-200'
 						onSubmit={handleSubmit(onSubmit)}

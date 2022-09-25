@@ -7,6 +7,7 @@ import Chart from 'src/components/chart'
 
 import Set from 'src/components/set'
 import Menu from 'src/components/menu'
+import PredefinedExercises from 'src/components/predefined-exercises'
 import {trpc} from 'src/utils/trpc'
 
 interface CreateExercise {
@@ -84,6 +85,9 @@ const WorkoutId = () => {
 								Description: {data.description}
 							</p>
 						</div>
+					)}
+					{data && data.type && (
+						<PredefinedExercises type={data.type} workoutId={workoutId} />
 					)}
 
 					<form
