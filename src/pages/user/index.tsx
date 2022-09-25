@@ -6,7 +6,7 @@ import {useEffect} from 'react'
 import {getServerAuthSession} from 'src/server/common/get-server-auth-session'
 
 import {trpc} from 'src/utils/trpc'
-
+import Head from 'next/head'
 const UserId = () => {
 	const {data: session} = useSession()
 	const router = useRouter()
@@ -19,10 +19,15 @@ const UserId = () => {
 	}, [router, session])
 
 	return (
-		<div className='container mx-auto p-4'>
-			<h1>User</h1>
-			<div className=''></div>
-		</div>
+		<>
+			<Head>
+				<title>Settings</title>
+			</Head>
+			<div className='container mx-auto p-4'>
+				<h1>User</h1>
+				<div className=''></div>
+			</div>
+		</>
 	)
 }
 
