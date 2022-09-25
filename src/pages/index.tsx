@@ -32,19 +32,19 @@ const Home: NextPage = () => {
 							</div>
 							<div className='flex items-center gap-4'>
 								<p
-									className='cursor-pointer rounded border-2 border-gray-400 p-2'
+									className='cursor-pointer rounded border-2 border-gray-400 p-2 hover:bg-slate-500'
 									onClick={() => router.push('/workout')}
 								>
 									Workout
 								</p>
 								<p
-									className='cursor-pointer rounded border-2 border-gray-400 p-2'
+									className='cursor-pointer rounded border-2 border-gray-400 p-2 hover:bg-slate-500'
 									onClick={() => router.push('/user')}
 								>
 									User
 								</p>
 								<p
-									className='cursor-pointer rounded border-2 border-gray-400 p-2'
+									className='cursor-pointer rounded border-2 border-gray-400 p-2 hover:bg-slate-500'
 									onClick={() => signOut()}
 								>
 									Logout
@@ -95,7 +95,7 @@ const Footer = () => {
 				Check us out!
 			</h2>
 			<footer className='my-2 flex flex-col items-center justify-around gap-4 md:flex-row'>
-				<div className='flex flex-col items-center justify-center rounded bg-slate-300 p-2 dark:bg-slate-700'>
+				<div className='flex cursor-pointer flex-col items-center justify-center rounded bg-slate-300 p-2 hover:bg-slate-500 dark:bg-slate-700 dark:hover:bg-slate-600'>
 					<a href='https://github.com/makyfj' target='_blank' rel='noreferrer'>
 						<FaGithub className='icon' />
 					</a>
@@ -104,7 +104,7 @@ const Footer = () => {
 					</div>
 				</div>
 
-				<div className='flex flex-col items-center justify-center rounded bg-slate-300 p-2 dark:bg-slate-700'>
+				<div className='flex cursor-pointer flex-col items-center justify-center rounded bg-slate-300 p-2 hover:bg-slate-500 dark:bg-slate-700 dark:hover:bg-slate-600'>
 					<a href='https://github.com/CDDR1' target='_blank' rel='noreferrer'>
 						<FaGithub className='icon' />
 					</a>
@@ -112,7 +112,7 @@ const Footer = () => {
 						<div className='text-slate-700 dark:text-slate-200'>Carlos</div>
 					</div>
 				</div>
-				<div className='flex flex-col items-center justify-center rounded bg-slate-300 p-2 dark:bg-slate-700'>
+				<div className='flex cursor-pointer flex-col items-center justify-center rounded bg-slate-300 p-2 hover:bg-slate-500 dark:bg-slate-700 dark:hover:bg-slate-600'>
 					<a
 						href='https://github.com/KyoshiNoda'
 						target='_blank'
@@ -125,7 +125,7 @@ const Footer = () => {
 					</div>
 				</div>
 
-				<div className='flex flex-col items-center justify-center rounded bg-slate-300 p-2 dark:bg-slate-700'>
+				<div className='flex cursor-pointer flex-col items-center justify-center rounded bg-slate-300 p-2 hover:bg-slate-500 dark:bg-slate-700 dark:hover:bg-slate-600'>
 					<a href='https://github.com/Keiaus' target='_blank' rel='noreferrer'>
 						<FaGithub className='icon' />
 					</a>
