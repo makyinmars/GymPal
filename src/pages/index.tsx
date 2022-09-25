@@ -2,6 +2,7 @@ import type {GetServerSidePropsContext, NextPage} from 'next'
 import Head from 'next/head'
 import {useSession, signIn, signOut} from 'next-auth/react'
 import {FaDiscord} from 'react-icons/fa'
+import {VscGithub} from 'react-icons/vsc'
 import {useRouter} from 'next/router'
 
 import {getServerAuthSession} from 'src/server/common/get-server-auth-session'
@@ -69,9 +70,9 @@ const Home: NextPage = () => {
 						</div>
 					</div>
 				)}
-				<div className='min-h-screen'>
+				<footer>
 					<div className='sticky top-[80vh] flex justify-around'>
-						<FaDiscord className='text-8xl text-purple-400' />
+						<VscGithub className='text-8xl text-purple-400' />
 						<div className='cols-8 grid grid'>
 							<a
 								href='https://github.com/makyfj'
@@ -124,7 +125,7 @@ const Home: NextPage = () => {
 							</div>
 						</div>
 					</div>
-				</div>
+				</footer>
 			</main>
 		</>
 	)
