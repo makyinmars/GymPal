@@ -29,7 +29,6 @@ const CreateWorkout = () => {
 		try {
 			data.userId = userId
 			const workout = await createWorkout.mutateAsync(data)
-			console.log(workout)
 			if (workout) {
 				router.push(`/workout/${workout.id}`)
 			}

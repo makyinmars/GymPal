@@ -25,6 +25,7 @@ export const setRouter = createProtectedRouter()
 	.mutation('createSet', {
 		input: z.object({
 			exerciseId: z.string(),
+			workoutId: z.string(),
 			weight: z.number(),
 			reps: z.number(),
 		}),
@@ -32,6 +33,7 @@ export const setRouter = createProtectedRouter()
 			return ctx.prisma.set.create({
 				data: {
 					exerciseId: input.exerciseId,
+					workoutId: input.workoutId,
 					weight: input.weight,
 					reps: input.reps,
 				},
@@ -41,6 +43,7 @@ export const setRouter = createProtectedRouter()
 	.mutation('createSets', {
 		input: z.object({
 			exerciseId: z.string(),
+			workoutId: z.string(),
 			sets: z.array(
 				z.object({
 					weight: z.number(),
@@ -52,6 +55,7 @@ export const setRouter = createProtectedRouter()
 			return ctx.prisma.set.createMany({
 				data: input.sets.map((set) => ({
 					exerciseId: input.exerciseId,
+					workoutId: input.workoutId,
 					weight: set.weight,
 					reps: set.reps,
 				})),

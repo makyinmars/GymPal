@@ -92,5 +92,6 @@ model Set {
   createdAt  DateTime @default(now())
   updatedAt  DateTime @updatedAt
   exerciseId String
+  workoutId  String
   exercise   Exercise @relation(fields: [exerciseId], references: [id], onDelete: Cascade)
 }

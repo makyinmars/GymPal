@@ -1,14 +1,15 @@
 import type {GetServerSidePropsContext, NextPage} from 'next'
 import Head from 'next/head'
 import {useSession, signIn, signOut} from 'next-auth/react'
-import Link from 'next/link'
 import {FaDiscord} from 'react-icons/fa'
-import Menu from 'src/components/menu'
+import {useRouter} from 'next/router'
+
 import {getServerAuthSession} from 'src/server/common/get-server-auth-session'
 import Theme from 'src/components/theme'
 
 const Home: NextPage = () => {
 	const {data: session} = useSession()
+	const router = useRouter()
 
 	return (
 		<>
@@ -24,29 +25,26 @@ const Home: NextPage = () => {
 					<div className='flex flex-col items-center justify-around gap-4'>
 						<div className='flex flex-col gap-4'>
 							<p>Logged in as {session?.user?.email}</p>
-							<button
-								onClick={() => signOut()}
-								className='rounded border border-black p-4'
-							>
-								Logout
-							</button>
 						</div>
 						<div className='flex items-center gap-4'>
-							<Link href='/workout'>
-								<p className='cursor-pointer rounded border-2 border-gray-400 p-2'>
-									Workout
-								</p>
-							</Link>
-							<Link href='/user'>
-								<p className='cursor-pointer rounded border-2 border-gray-400 p-2'>
-									User
-								</p>
-							</Link>
-							<Link href='logout'>
-								<p className='cursor-pointer rounded border-2 border-gray-400 p-2'>
-									Logout
-								</p>
-							</Link>
+							<p
+								className='cursor-pointer rounded border-2 border-gray-400 p-2'
+								onClick={() => router.push('/workout')}
+							>
+								Workout
+							</p>
+							<p
+								className='cursor-pointer rounded border-2 border-gray-400 p-2'
+								onClick={() => router.push('/user')}
+							>
+								User
+							</p>
+							<p
+								className='cursor-pointer rounded border-2 border-gray-400 p-2'
+								onClick={() => signOut()}
+							>
+								Logout
+							</p>
 						</div>
 					</div>
 				) : (
