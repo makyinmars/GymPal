@@ -116,7 +116,7 @@ export const workoutRouter = createProtectedRouter()
 			userId: z.string(),
 			name: z.string(),
 			description: z.string(),
-			type: z.string(),
+			type: z.string().optional(),
 		}),
 		async resolve({ctx, input}) {
 			const newWorkout = await ctx.prisma.workout.create({
@@ -124,6 +124,7 @@ export const workoutRouter = createProtectedRouter()
 					userId: input.userId,
 					name: input.name,
 					description: input.description,
+					type: input.type,
 				},
 			})
 
