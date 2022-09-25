@@ -72,10 +72,13 @@ const Set = ({exerciseId, workoutId}: SetProps) => {
 					return (
 						<div
 							key={field.id}
-							className='grid grid-cols-2 items-center gap-2 rounded bg-slate-400 p-2'
+							className='grid grid-cols-2 items-center gap-2 rounded bg-blue-700 p-2 dark:bg-blue-900'
 						>
-							<label className='text-center' htmlFor='weight'>
-								Weight
+							<label
+								className='text-center text-2xl font-bold text-white'
+								htmlFor='weight'
+							>
+								Weight:
 							</label>
 							<input
 								id='weight'
@@ -87,8 +90,11 @@ const Set = ({exerciseId, workoutId}: SetProps) => {
 								})}
 								className='m-1 rounded border p-1'
 							/>
-							<label className='text-center' htmlFor='reps'>
-								Reps
+							<label
+								className='text-center text-2xl font-bold text-white'
+								htmlFor='reps'
+							>
+								Reps:
 							</label>
 							<input
 								id='reps'
@@ -108,7 +114,7 @@ const Set = ({exerciseId, workoutId}: SetProps) => {
 						</div>
 					)
 				})}
-				<div className='flex items-center justify-center gap-4 rounded bg-slate-300 py-2'>
+				<div className='dark:blue-900 flex items-center justify-center gap-4 rounded bg-blue-700 py-2 dark:bg-blue-900'>
 					<div>
 						<button
 							className='button'

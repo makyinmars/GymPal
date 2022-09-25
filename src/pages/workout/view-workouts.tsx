@@ -50,10 +50,10 @@ const ViewWorkouts = () => {
 							data.map((workout, i) => (
 								<div
 									key={i}
-									className='flex cursor-pointer flex-col gap-2 rounded bg-slate-300 p-1'
+									className='flex cursor-pointer flex-col gap-2 rounded bg-white p-1 dark:bg-slate-900'
 								>
 									<p
-										className='text-center text-lg font-bold hover:text-blue-400'
+										className='bg-blue-800 text-center text-lg font-bold text-white dark:bg-blue-900'
 										onClick={() => router.push(`/workout/${workout.id}`)}
 									>
 										{workout.name}

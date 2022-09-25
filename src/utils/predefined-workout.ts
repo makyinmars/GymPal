@@ -63,3 +63,26 @@ export const backWorkout = {
 		},
 	],
 }
+
+export const shoulderWorkout = {
+	exercises: [
+		{
+			name: 'Arnold Press',
+		},
+		{
+			name: 'Overhead Press',
+		},
+		{
+			name: 'Push Press',
+		},
+		{
+			name: 'Dumbbell Lateral Raise',
+		},
+		{
+			name: 'Upright Row',
+		},
+		{
+			name: 'Front Raise',
+		},
+	],
+}

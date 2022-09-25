@@ -80,22 +80,26 @@ const WorkoutId = () => {
 					{isError && <div>Error</div>}
 					{data && (
 						<div className='mx-auto'>
-							<h2 className='text-center text-xl'>Workout: {data.name}</h2>
-							<p className='text-center text-lg'>
+							<h2 className='text-center text-6xl'>Workout: {data.name}</h2>
+							<p className='text-center text-3xl'>
 								Description: {data.description}
 							</p>
 						</div>
 					)}
-					{data && data.type && (
-						<PredefinedExercises type={data.type} workoutId={workoutId} />
-					)}
-
+					<div className='rounded bg-blue-300 p-10 dark:bg-slate-900'>
+						{data && data.type && (
+							<PredefinedExercises type={data.type} workoutId={workoutId} />
+						)}
+					</div>
 					<form
-						className='rounded bg-slate-500 p-4 dark:bg-slate-400'
+						className='rounded bg-blue-700 p-4 dark:bg-slate-900'
 						onSubmit={handleSubmit(onSubmit)}
 					>
 						<div className='mb-4'>
-							<label className='mb-2 block text-sm font-bold' htmlFor='name'>
+							<label
+								className='mb-2 block text-sm text-3xl font-bold text-white'
+								htmlFor='name'
+							>
 								Name
 							</label>
 							<input
@@ -118,7 +122,7 @@ const WorkoutId = () => {
 						</div>
 					</form>
 					<div>
-						<h2 className='text-center'>Exercises</h2>
+						<h2 className='text-bold text-center text-6xl'>Exercises</h2>
 						{exercisesIsLoading && <div>Loading...</div>}
 						{exercisesIsError && <div>Error</div>}
 						<div className='grid grid-cols-1 gap-4 rounded p-4 md:grid-cols-3'>
@@ -132,9 +136,9 @@ const WorkoutId = () => {
 								exercisesData.map((exercise, i) => (
 									<div
 										key={i}
-										className='flex flex-col gap-4 rounded bg-slate-300 p-4'
+										className='flex flex-col gap-4 rounded bg-blue-300 p-4 dark:bg-slate-900'
 									>
-										<h3 className='text-center text-xl font-bold'>
+										<h3 className='text-center text-3xl font-bold dark:text-white'>
 											{exercise.name}
 										</h3>
 										<Set
