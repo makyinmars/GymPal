@@ -24,28 +24,39 @@ const WorkoutId = () => {
 		formState: {errors},
 	} = useForm<CreateExercise>()
 
-	const id = router.query.id as string
+	const workoutId = router.query.id as string
+
+	const deleteExercise = trpc.useMutation('exercise.deleteExercise')
+
+	const onDeleteExercise = async (id: string) => {
+		try {
+			const deleted = await deleteExercise.mutateAsync({id})
+			if (deleted) {
+				utils.invalidateQueries(['exercise.getExercises', {workoutId}])
+			}
+		} catch {}
+	}
 
 	const {data, isError, isLoading} = trpc.useQuery([
 		'workout.getWorkoutById',
-		{id},
+		{id: workoutId},
 	])
 
 	const {
 		data: exercisesData,
 		isError: exercisesIsError,
 		isLoading: exercisesIsLoading,
-	} = trpc.useQuery(['exercise.getExercises', {workoutId: id}])
+	} = trpc.useQuery(['exercise.getExercises', {workoutId: workoutId}])
 
 	const createExercise = trpc.useMutation('exercise.createExercise', {
 		onSuccess() {
-			utils.fetchQuery(['exercise.getExercises', {workoutId: id}])
+			utils.invalidateQueries(['exercise.getExercises', {workoutId: workoutId}])
 		},
 	})
 
 	const onSubmit: SubmitHandler<CreateExercise> = async (data) => {
 		try {
-			data.workoutId = id
+			data.workoutId = workoutId
 			await createExercise.mutateAsync(data)
 		} catch {}
 	}
@@ -109,7 +120,10 @@ const WorkoutId = () => {
 						)}
 						{exercisesData && exercisesData.length >= 1 ? (
 							exercisesData.map((exercise, i) => (
-								<div key={i} className='rounded p-4'>
+								<div
+									key={i}
+									className='flex flex-col gap-4 rounded bg-slate-300 p-4'
+								>
 									<h3 className='text-center text-xl font-bold'>
 										{exercise.name}
 									</h3>
@@ -117,6 +131,14 @@ const WorkoutId = () => {
 										exerciseId={exercise.id}
 										workoutId={exercise.workoutId}
 									/>
+									<div className='flex justify-center'>
+										<button
+											className='button'
+											onClick={() => onDeleteExercise(exercise.id)}
+										>
+											Delete exercise
+										</button>
+									</div>
 								</div>
 							))
 						) : (
