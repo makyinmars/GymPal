@@ -7,6 +7,7 @@ import Head from 'next/head'
 
 import {getServerAuthSession} from 'src/server/common/get-server-auth-session'
 import {trpc} from 'src/utils/trpc'
+import EditUser from 'src/components/edit-user'
 
 const UserId = () => {
 	const {data: session} = useSession()
@@ -61,8 +62,9 @@ const UserId = () => {
 							/>
 							<p>{data.name}</p>
 							<p>{data.email}</p>
+							{data.phoneNumber && <p>{data.phoneNumber}</p>}
 							<div className='flex flex-col items-center justify-center gap-4'>
-								<button className='button'>Update account</button>
+								<EditUser userId={data.id} name={data.name as string} />
 								<button
 									className='button'
 									onClick={() => onDeleteUser(data.id)}
