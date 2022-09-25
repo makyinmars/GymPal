@@ -51,14 +51,6 @@ const PredefinedWorkout = ({userId}: PredefinedWorkoutProps) => {
 						Back
 					</h2>
 				</div>
-				<div className='rounded border border-slate-800 p-2'>
-					<h2
-						className='cursor-pointer text-center hover:text-blue-400'
-						onClick={() => onPredefinedWorkout('Cardio')}
-					>
-						Cardio
-					</h2>
-				</div>
 			</div>
 		</div>
 	)
