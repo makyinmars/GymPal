@@ -52,46 +52,79 @@ const Home: NextPage = () => {
 					</div>
 				) : (
 					<div>
-						<p>Not signed in</p>
-						<button
-							onClick={() =>
-								signIn('discord', {
-									callbackUrl: `/`,
-								})
-							}
-							className='rounded border border-black p-4'
-						>
-							Discord
-						</button>
+						<div className='flex min-h-screen flex-row items-center justify-center'>
+							<div className='col-8 flex flex'>
+								<p>Not signed in </p>
+							</div>
+
+							<div className='center-0 absolute mb-40'>
+								<button
+									onClick={() =>
+										signIn('discord', {
+											callbackUrl: `/`,
+										})
+									}
+									className='rounded border border-black p-4'
+								>
+									Discord
+								</button>
+							</div>
+						</div>
 					</div>
 				)}
 				<div className='min-h-screen'>
-					<div className='sticky top-[80vh] flex justify-around bg-black p-4'>
+					<div className='sticky top-[80vh] flex justify-around'>
 						<FaDiscord className='text-8xl text-purple-400' />
 						<div className='cols-8 grid grid'>
-							<div className='text-purple-400'>makyfj</div>
-							<div className='flex justify-around bg-purple-400 p-1'>
+							<a
+								href='https://github.com/makyfj'
+								target='_blank'
+								rel='noreferrer'
+							>
+								<div className='text-purple-400'>makyfj</div>
+							</a>
+							<div className='flex rounded-full bg-purple-400 p-1 align-top'>
 								<div>Franklin</div>
 							</div>
 						</div>
 
 						<div className='cols-8 grid grid'>
-							<div className='text-purple-400'>CDDR1</div>
-							<div className='flex justify-around bg-purple-400 p-1'>
+							<a
+								href='https://github.com/CDDR1'
+								target='_blank'
+								rel='noreferrer'
+							>
+								<div className='text-purple-400'>CDDR1</div>
+							</a>
+							<div className='flex rounded-full bg-purple-400 p-1 align-top'>
 								<div>Carlos</div>
 							</div>
 						</div>
 
 						<div className='cols-8 grid grid'>
-							<div className='text-purple-400'>KyoshiNoda</div>
-							<div className='flex justify-around bg-purple-400 p-1'>
+							<a
+								href='https://github.com/KyoshiNoda'
+								target='_blank'
+								rel='noreferrer'
+							>
+								<div className='text-purple-400'>KyoshiNoda</div>
+							</a>
+							<div className='flex rounded-full bg-purple-400 p-1 align-top'>
 								Kyoshi
 							</div>
 						</div>
 
 						<div className='cols-8 grid grid'>
-							<div className='text-purple-400'>Keiaus</div>
-							<div className='flex justify-around bg-purple-400 p-1'>Keith</div>
+							<a
+								href='https://github.com/Keiaus'
+								target='_blank'
+								rel='noreferrer'
+							>
+								<div className='text-purple-400'>Keiaus</div>
+							</a>
+							<div className='flex rounded-full bg-purple-400 p-1 align-top'>
+								Keith
+							</div>
 						</div>
 					</div>
 				</div>
