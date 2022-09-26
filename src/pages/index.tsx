@@ -100,7 +100,7 @@ const Footer = () => {
 						<FaGithub className='icon' />
 					</a>
 					<div className='flex rounded p-1 align-top'>
-						<p className='text-slate-700 dark:text-slate-200'>Franklin</p>
+						<p className='text-slate-700 dark:text-slate-200'>Franklin :D</p>
 					</div>
 				</div>
 
