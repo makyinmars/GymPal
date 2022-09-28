@@ -13,12 +13,10 @@ import EditUser from 'src/components/edit-user'
 const UserId = () => {
 	const {data: session} = useSession()
 	const router = useRouter()
-	const utils = trpc.useContext()
 
-	const {data, isLoading, isError} = trpc.useQuery(['user.getUser'])
-
-	const deleteUser = trpc.useMutation('user.deleteUser')
-	const updateUser = trpc.useMutation('user.updateUser')
+	const {data, isLoading, isError} = trpc.user.getUser.useQuery()
+	const deleteUser = trpc.user.deleteUser.useMutation()
+	const updateUser = trpc.user.updateUser.useMutation()
 
 	const onDeleteUser = async (id: string) => {
 		try {
@@ -31,10 +29,7 @@ const UserId = () => {
 
 	const onUpdateUser = async (id: string, name: string) => {
 		try {
-			const updatedUser = await updateUser.mutateAsync({id, name})
-			if (updatedUser) {
-				utils.invalidateQueries(['user.getUser'])
-			}
+			await updateUser.mutateAsync({id, name})
 		} catch {}
 	}
 

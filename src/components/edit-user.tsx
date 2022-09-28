@@ -17,8 +17,7 @@ interface EditUserProps {
 const EditUser = ({userId, name, phoneNumber}: EditUserProps) => {
 	const [isOpen, setIsOpen] = useState(false)
 
-	const utils = trpc.useContext()
-	const updateUser = trpc.useMutation('user.updateUser')
+	const updateUser = trpc.user.updateUser.useMutation()
 
 	const {
 		register,
@@ -29,10 +28,7 @@ const EditUser = ({userId, name, phoneNumber}: EditUserProps) => {
 	const onSubmit: SubmitHandler<EditUserInputs> = async (data) => {
 		try {
 			data.id = userId
-			const user = await updateUser.mutateAsync(data)
-			if (user) {
-				utils.invalidateQueries(['user.getUser'])
-			}
+			await updateUser.mutateAsync(data)
 		} catch {}
 	}
 

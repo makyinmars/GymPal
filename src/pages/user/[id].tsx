@@ -11,7 +11,7 @@ const UserId = () => {
 	const router = useRouter()
 	const id = router.query.id as string
 
-	const {data, isError, isLoading} = trpc.useQuery(['user.getUserById', {id}])
+	const {data, isError, isLoading} = trpc.user.getUserById.useQuery({id})
 	useEffect(() => {
 		if (!session) {
 			router.push('/user')

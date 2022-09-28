@@ -35,24 +35,17 @@ const Set = ({exerciseId, workoutId, showForm}: SetProps) => {
 		control,
 	})
 
-	const createSets = trpc.useMutation('set.createSets', {
-		onSuccess() {
-			utils.invalidateQueries(['set.getSetsByExerciseId', {exerciseId}])
-		},
+	const createSets = trpc.set.createSets.useMutation()
+
+	const {data, isError, isLoading} = trpc.set.getSetsByExerciseId.useQuery({
+		exerciseId,
 	})
 
-	const {data, isError, isLoading} = trpc.useQuery([
-		'set.getSetsByExerciseId',
-		{exerciseId},
-	])
 	const onSubmit: SubmitHandler<SetInputs> = async (data) => {
 		try {
 			data.exerciseId = exerciseId
 			data.workoutId = workoutId
-			const sets = await createSets.mutateAsync(data)
-			if (sets) {
-				utils.invalidateQueries(['set.getSetsByExerciseId', {exerciseId}])
-			}
+			await createSets.mutateAsync(data)
 		} catch {}
 	}
 	return (

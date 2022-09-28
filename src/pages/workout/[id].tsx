@@ -22,6 +22,8 @@ const WorkoutId = () => {
 	const {data: session} = useSession()
 	const router = useRouter()
 
+	const id = router.query.id as string
+
 	const utils = trpc.useContext()
 
 	const {
@@ -32,42 +34,29 @@ const WorkoutId = () => {
 
 	const workoutId = router.query.id as string
 
-	const deleteExercise = trpc.useMutation('exercise.deleteExercise')
+	const deleteExercise = trpc.exercise.deleteExercise.useMutation()
 
 	const {
 		data: userData,
 		isError: userIsError,
 		isLoading: userIsLoading,
-	} = trpc.useQuery(['user.getUser'])
+	} = trpc.user.getUser.useQuery()
 
 	const onDeleteExercise = async (id: string) => {
 		try {
-			const deleted = await deleteExercise.mutateAsync({id})
-			if (deleted) {
-				utils.invalidateQueries(['exercise.getExercises', {workoutId}])
-			}
+			await deleteExercise.mutateAsync({id})
 		} catch {}
 	}
 
-	const {data, isError, isLoading} = trpc.useQuery([
-		'workout.getWorkoutById',
-		{id: router.query && (router.query.id as string)},
-	])
+	const {data, isError, isLoading} = trpc.workout.getWorkoutById.useQuery({id})
 
 	const {
 		data: exercisesData,
 		isError: exercisesIsError,
 		isLoading: exercisesIsLoading,
-	} = trpc.useQuery(['exercise.getExercises', {workoutId: workoutId}])
+	} = trpc.exercise.getExercises.useQuery({workoutId})
 
-	const createExercise = trpc.useMutation('exercise.createExercise', {
-		onSuccess() {
-			utils.invalidateQueries([
-				'exercise.getExercises',
-				{workoutId: router.query && (router.query.id as string)},
-			])
-		},
-	})
+	const createExercise = trpc.exercise.createExercise.useMutation()
 
 	const onSubmit: SubmitHandler<CreateExercise> = async (data) => {
 		try {
@@ -98,12 +87,6 @@ const WorkoutId = () => {
 			}
 		}
 	}
-
-	useEffect(() => {
-		utils.prefetchQuery(['workout.getWorkoutById', {id: workoutId}])
-		utils.prefetchQuery(['user.getUser'])
-		utils.prefetchQuery(['exercise.getExercises', {workoutId}])
-	}, [utils, workoutId])
 
 	useEffect(() => {
 		if (!session) {
