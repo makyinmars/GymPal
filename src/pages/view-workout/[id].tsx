@@ -11,19 +11,14 @@ const ViewWorkout = () => {
 
 	const workoutId = router.query.id as string
 
-	const {data, isError, isLoading} = trpc.useQuery([
-		'workout.getViewWorkoutByWorkoutId',
-		{workoutId},
-	])
+	const {data, isError, isLoading} =
+		trpc.workout.getViewWorkoutByWorkoutId.useQuery({workoutId})
 
 	const {
 		data: exercisesData,
 		isError: exercisesIsError,
 		isLoading: exercisesIsLoading,
-	} = trpc.useQuery([
-		'exercise.getViewExercisesByWorkoutId',
-		{workoutId: workoutId},
-	])
+	} = trpc.exercise.getViewExercisesByWorkoutId.useQuery({workoutId})
 
 	return (
 		<>

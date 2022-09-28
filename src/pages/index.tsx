@@ -2,7 +2,6 @@ import type {GetServerSidePropsContext, NextPage} from 'next'
 import Head from 'next/head'
 import {useSession, signIn, signOut} from 'next-auth/react'
 import {FaDiscord, FaGithub} from 'react-icons/fa'
-import {VscGithub} from 'react-icons/vsc'
 import {useRouter} from 'next/router'
 
 import {getServerAuthSession} from 'src/server/common/get-server-auth-session'

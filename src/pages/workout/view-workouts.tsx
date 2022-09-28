@@ -9,25 +9,16 @@ import Spinner from '../../components/spinner'
 const ViewWorkouts = () => {
 	const {data: session} = useSession()
 	const router = useRouter()
-	const utils = trpc.useContext()
 
-	const {data, isError, isLoading} = trpc.useQuery(['workout.getWorkouts'])
+	const {data, isError, isLoading} = trpc.workout.getWorkouts.useQuery()
 
-	const deleteWorkout = trpc.useMutation('workout.deleteWorkout', {
-		onSuccess: () => {
-			utils.invalidateQueries(['workout.getWorkouts'])
-		},
-	})
+	const deleteWorkout = trpc.workout.deleteWorkout.useMutation()
 
 	const onDeleteWorkout = async (id: string) => {
 		try {
 			await deleteWorkout.mutateAsync({id})
 		} catch {}
 	}
-
-	useEffect(() => {
-		utils.invalidateQueries(['workout.getWorkouts'])
-	}, [utils])
 
 	useEffect(() => {
 		if (!session) {

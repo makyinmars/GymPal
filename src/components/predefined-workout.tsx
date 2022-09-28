@@ -7,7 +7,7 @@ interface PredefinedWorkoutProps {
 }
 
 const PredefinedWorkout = ({userId}: PredefinedWorkoutProps) => {
-	const predefinedWorkout = trpc.useMutation('workout.createPredefinedWorkout')
+	const predefinedWorkout = trpc.workout.createPredefinedWorkout.useMutation()
 	const router = useRouter()
 	const onPredefinedWorkout = async (type: string) => {
 		const data = {

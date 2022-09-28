@@ -13,6 +13,9 @@ export const exerciseRouter = t.router({
 				where: {
 					workoutId,
 				},
+				include: {
+					sets: true,
+				},
 			})
 		}),
 
@@ -39,6 +42,10 @@ export const exerciseRouter = t.router({
 				},
 				orderBy: {
 					createdAt: 'desc',
+				},
+
+				include: {
+					sets: true,
 				},
 			})
 		}),

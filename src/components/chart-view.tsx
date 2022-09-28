@@ -41,10 +41,7 @@ const Chart = ({workoutId}: ChartProps) => {
 		data: exercisesData,
 		isError: exercisesIsError,
 		isLoading: exercisesIsLoading,
-	} = trpc.useQuery([
-		'exercise.getViewExercisesByWorkoutId',
-		{workoutId: workoutId},
-	])
+	} = trpc.exercise.getViewExercisesByWorkoutId.useQuery({workoutId})
 
 	// Create a function that returns all the names of the exercises
 	const exerciseNames = exercisesData?.map((exercise) => exercise.name)

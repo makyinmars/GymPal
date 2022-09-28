@@ -11,18 +11,14 @@ interface PredefinedWorkoutProps {
 	workoutId: string
 }
 const PredefinedExercises = ({type, workoutId}: PredefinedWorkoutProps) => {
-	const createExercise = trpc.useMutation('exercise.createExercise')
-	const utils = trpc.useContext()
+	const createExercise = trpc.exercise.createExercise.useMutation()
 	const onCreateExercise = async (name: string) => {
 		try {
 			const data = {
 				name,
 				workoutId,
 			}
-			const exercise = await createExercise.mutateAsync(data)
-			if (exercise) {
-				utils.invalidateQueries(['exercise.getExercises', {workoutId}])
-			}
+			await createExercise.mutateAsync(data)
 		} catch {}
 	}
 	return (

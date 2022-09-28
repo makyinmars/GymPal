@@ -18,8 +18,7 @@ const CreateWorkout = () => {
 
 	const userId = session?.user?.id as string
 
-	const createWorkout = trpc.useMutation('workout.createWorkout')
-
+	const createWorkout = trpc.workout.createWorkout.useMutation()
 	const {
 		register,
 		handleSubmit,

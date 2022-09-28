@@ -53,7 +53,6 @@ export const userRouter = t.router({
 			z.object({
 				id: z.string(),
 				name: z.string(),
-				phoneNumber: z.string(),
 			})
 		)
 		.mutation(({ctx, input}) => {
@@ -63,7 +62,6 @@ export const userRouter = t.router({
 				},
 				data: {
 					name: input.name,
-					phoneNumber: input.phoneNumber,
 				},
 			})
 		}),
