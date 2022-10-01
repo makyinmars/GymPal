@@ -4,7 +4,6 @@ import Set from 'src/components/set'
 import Menu from 'src/components/menu'
 import {trpc} from 'src/utils/trpc'
 import {useRouter} from 'next/router'
-import ChartView from 'src/components/chart-view'
 
 const ViewWorkout = () => {
 	const router = useRouter()
@@ -37,8 +36,6 @@ const ViewWorkout = () => {
 							</p>
 						</div>
 					)}
-					{data && <ChartView workoutId={workoutId} />}
-
 					<div>
 						<h2 className='text-center'>Exercises</h2>
 						{exercisesIsLoading && <div>Loading...</div>}
