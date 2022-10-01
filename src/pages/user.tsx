@@ -2,9 +2,10 @@ import {GetServerSidePropsContext} from 'next'
 import {useSession} from 'next-auth/react'
 import {useRouter} from 'next/router'
 import {useEffect} from 'react'
-import Menu from 'src/components/menu'
 import Head from 'next/head'
-import Spinner from '../../components/spinner'
+
+import Spinner from 'src/components/spinner'
+import Menu from 'src/components/menu'
 
 import {getServerAuthSession} from 'src/server/common/get-server-auth-session'
 import {trpc} from 'src/utils/trpc'
@@ -16,7 +17,6 @@ const UserId = () => {
 
 	const {data, isLoading, isError} = trpc.user.getUser.useQuery()
 	const deleteUser = trpc.user.deleteUser.useMutation()
-	const updateUser = trpc.user.updateUser.useMutation()
 
 	const onDeleteUser = async (id: string) => {
 		try {
@@ -24,12 +24,6 @@ const UserId = () => {
 			if (deletedUser) {
 				router.push('/')
 			}
-		} catch {}
-	}
-
-	const onUpdateUser = async (id: string, name: string) => {
-		try {
-			await updateUser.mutateAsync({id, name})
 		} catch {}
 	}
 

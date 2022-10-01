@@ -2,21 +2,39 @@ import {useSession} from 'next-auth/react'
 import {useRouter} from 'next/router'
 import {useEffect} from 'react'
 import Head from 'next/head'
+import toast, {Toaster} from 'react-hot-toast'
+
 import Menu from 'src/components/menu'
 import {trpc} from 'src/utils/trpc'
-import Spinner from '../../components/spinner'
+import Spinner from 'src/components/spinner'
 
 const ViewWorkouts = () => {
 	const {data: session} = useSession()
 	const router = useRouter()
+	const utils = trpc.useContext()
 
 	const {data, isError, isLoading} = trpc.workout.getWorkouts.useQuery()
 
-	const deleteWorkout = trpc.workout.deleteWorkout.useMutation()
+	const deleteWorkout = trpc.workout.deleteWorkout.useMutation({
+		async onSuccess() {
+			await utils.workout.getWorkouts.invalidate()
+		},
+	})
 
 	const onDeleteWorkout = async (id: string) => {
 		try {
-			await deleteWorkout.mutateAsync({id})
+			const deletedWorkout = await deleteWorkout.mutateAsync({id})
+			if (deletedWorkout) {
+				toast('Workout deleted!', {
+					duration: 2000,
+					position: 'top-center',
+					icon: '👏',
+					iconTheme: {
+						primary: '#000',
+						secondary: '#fff',
+					},
+				})
+			}
 		} catch {}
 	}
 
@@ -30,6 +48,7 @@ const ViewWorkouts = () => {
 			<Head>
 				<title>View Workouts</title>
 			</Head>
+			<Toaster />
 			<Menu>
 				<div className='container mx-auto flex flex-col gap-4 p-4'>
 					<h1 className='text-center text-2xl font-bold'>View Workouts</h1>

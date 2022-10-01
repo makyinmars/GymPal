@@ -1,6 +1,8 @@
 import {Dialog, Transition} from '@headlessui/react'
 import {useForm, SubmitHandler} from 'react-hook-form'
 import {Fragment, useState} from 'react'
+import toast, {Toaster} from 'react-hot-toast'
+
 import {trpc} from 'src/utils/trpc'
 
 interface EditUserInputs {
@@ -16,8 +18,13 @@ interface EditUserProps {
 }
 const EditUser = ({userId, name, phoneNumber}: EditUserProps) => {
 	const [isOpen, setIsOpen] = useState(false)
+	const utils = trpc.useContext()
 
-	const updateUser = trpc.user.updateUser.useMutation()
+	const updateUser = trpc.user.updateUser.useMutation({
+		async onSuccess() {
+			await utils.user.getUser.invalidate()
+		},
+	})
 
 	const {
 		register,
@@ -28,7 +35,19 @@ const EditUser = ({userId, name, phoneNumber}: EditUserProps) => {
 	const onSubmit: SubmitHandler<EditUserInputs> = async (data) => {
 		try {
 			data.id = userId
-			await updateUser.mutateAsync(data)
+			const newUser = await updateUser.mutateAsync(data)
+			if (newUser) {
+				setIsOpen(false)
+				toast('User updated!', {
+					duration: 2000,
+					position: 'top-center',
+					icon: '👏',
+					iconTheme: {
+						primary: '#000',
+						secondary: '#fff',
+					},
+				})
+			}
 		} catch {}
 	}
 
@@ -42,6 +61,7 @@ const EditUser = ({userId, name, phoneNumber}: EditUserProps) => {
 
 	return (
 		<>
+			<Toaster />
 			<div className='flex items-center justify-center'>
 				<button type='button' onClick={openModal} className='button'>
 					Edit User

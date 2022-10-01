@@ -1,4 +1,5 @@
 export const armWorkout = {
+	type: 'Arm',
 	exercises: [
 		{
 			name: 'Bicep Curl',
@@ -19,6 +20,7 @@ export const armWorkout = {
 }
 
 export const legWorkout = {
+	type: 'Leg',
 	exercises: [
 		{
 			name: 'Squat',
@@ -42,6 +44,7 @@ export const legWorkout = {
 }
 
 export const backWorkout = {
+	type: 'Back',
 	exercises: [
 		{
 			name: 'Deadlift',
@@ -65,6 +68,7 @@ export const backWorkout = {
 }
 
 export const shoulderWorkout = {
+	type: 'Shoulder',
 	exercises: [
 		{
 			name: 'Arnold Press',

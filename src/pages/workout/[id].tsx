@@ -32,15 +32,19 @@ const WorkoutId = () => {
 		formState: {errors},
 	} = useForm<CreateExercise>()
 
-	const workoutId = router.query.id as string
-
-	const deleteExercise = trpc.exercise.deleteExercise.useMutation()
-
 	const {
 		data: userData,
 		isError: userIsError,
 		isLoading: userIsLoading,
 	} = trpc.user.getUser.useQuery()
+
+	const workoutId = router.query.id as string
+
+	const deleteExercise = trpc.exercise.deleteExercise.useMutation({
+		async onSuccess() {
+			await utils.exercise.getExercises.invalidate()
+		},
+	})
 
 	const onDeleteExercise = async (id: string) => {
 		try {
@@ -68,8 +72,7 @@ const WorkoutId = () => {
 	const onCompleteWorkout = async () => {
 		if (userData && userData.phoneNumber) {
 			try {
-				// const message = `Great job on your workout! You can view your workout at https://gym-pal.vercel.app/view-workout/${workoutId}`
-				const message = `Great job on your workout! Don't forget to keep up the good work!`
+				const message = `Great job on your workout! You can view your workout at https://gym-pal.vercel.app/view-workout/${workoutId}`
 				const to = `+1${userData.phoneNumber}`
 				const data = {
 					message,

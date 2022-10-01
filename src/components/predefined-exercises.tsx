@@ -29,13 +29,12 @@ const PredefinedExercises = ({type, workoutId}: PredefinedWorkoutProps) => {
 			<div className='grid grid-cols-1 gap-4 md:grid-cols-3'>
 				{type === 'Arms' &&
 					armWorkout.exercises.map((exercise, i) => (
-						<div key={i} className='rounded bg-slate-700 p-2 dark:bg-blue-900'>
-							<p
-								className='text-center font-bold text-white'
-								onClick={() => onCreateExercise(exercise.name)}
-							>
-								{exercise.name}
-							</p>
+						<div
+							key={i}
+							className='flex cursor-pointer justify-center rounded bg-slate-700 p-2 dark:bg-blue-900'
+							onClick={() => onCreateExercise(exercise.name)}
+						>
+							<button className='font-bold text-white'>{exercise.name}</button>
 						</div>
 					))}
 			</div>
@@ -83,3 +82,40 @@ const PredefinedExercises = ({type, workoutId}: PredefinedWorkoutProps) => {
 }
 
 export default PredefinedExercises
+
+interface PredefinedExerciseProps {
+	workoutId: string
+	exercises: {
+		name: string
+	}[]
+}
+
+const PredefinedExercise = ({
+	exercises,
+	workoutId,
+}: PredefinedExerciseProps) => {
+	const createExercise = trpc.exercise.createExercise.useMutation()
+	const onCreateExercise = async (name: string) => {
+		try {
+			const data = {
+				name,
+				workoutId,
+			}
+			await createExercise.mutateAsync(data)
+		} catch {}
+	}
+	return (
+		<div className='grid grid-cols-1 gap-4 md:grid-cols-3'>
+			{exercises.map((shoulder, i) => (
+				<div key={i} className='rounded bg-slate-700 p-2'>
+					<h2
+						className='text-center text-white hover:text-blue-400'
+						onClick={() => onCreateExercise(shoulder.name)}
+					>
+						{shoulder.name}
+					</h2>
+				</div>
+			))}
+		</div>
+	)
+}
