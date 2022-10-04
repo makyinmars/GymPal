@@ -22,12 +22,12 @@ const WorkoutId = () => {
 	const {data: session} = useSession()
 	const router = useRouter()
 
-	const id = router.query.id as string
+	const workoutId = router.query.id as string
 
 	const utils = trpc.useContext()
 
 	const {data: dataInfo} = trpc.workout.getAllInfoForWorkoutById.useQuery({
-		workoutId: id,
+		workoutId,
 	})
 
 	console.log(dataInfo)
@@ -44,8 +44,6 @@ const WorkoutId = () => {
 		isLoading: userIsLoading,
 	} = trpc.user.getUser.useQuery()
 
-	const workoutId = router.query.id as strinrg
-
 	const deleteExercise = trpc.exercise.deleteExercise.useMutation({
 		async onSuccess() {
 			await utils.exercise.getExercises.invalidate()
@@ -58,7 +56,9 @@ const WorkoutId = () => {
 		} catch {}
 	}
 
-	const {data, isError, isLoading} = trpc.workout.getWorkoutById.useQuery({id})
+	const {data, isError, isLoading} = trpc.workout.getWorkoutById.useQuery({
+		id: workoutId,
+	})
 
 	const {
 		data: exercisesData,
