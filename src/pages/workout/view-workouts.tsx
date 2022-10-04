@@ -51,8 +51,10 @@ const ViewWorkouts = () => {
 			<Toaster />
 			<Menu>
 				<div className='container mx-auto flex flex-col gap-4 p-4'>
-					<h1 className='text-center text-2xl font-bold'>View Workouts</h1>
-					<div className='grid grid-cols-1 gap-4 rounded md:grid-cols-3'>
+					<h1 className='text-center text-2xl font-bold text-slate-800 dark:text-slate-200'>
+						View Workouts
+					</h1>
+					<div className='grid grid-cols-1 gap-4 rounded md:grid-cols-3 lg:grid-cols-4'>
 						{isLoading && (
 							<div className='col-span-3 text-center'>
 								<Spinner />
@@ -63,10 +65,10 @@ const ViewWorkouts = () => {
 							data.map((workout, i) => (
 								<div
 									key={i}
-									className='flex cursor-pointer flex-col gap-2 rounded bg-white p-1 dark:bg-slate-900'
+									className='flex cursor-pointer flex-col gap-2 rounded bg-slate-100 p-2 shadow drop-shadow-lg dark:bg-slate-900'
 								>
 									<p
-										className='bg-blue-800 text-center text-lg font-bold text-white dark:bg-blue-900'
+										className='bg-slate-300 text-center text-lg font-bold text-slate-800 dark:bg-slate-700 dark:text-slate-200'
 										onClick={() => router.push(`/workout/${workout.id}`)}
 									>
 										{workout.name}

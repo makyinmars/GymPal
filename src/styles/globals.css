@@ -8,10 +8,14 @@
 	}
 
 	.button {
-		@apply rounded bg-blue-500 p-2 text-sm font-bold text-white hover:bg-blue-700;
+		@apply rounded bg-slate-400 p-2 text-sm font-bold text-slate-800 shadow shadow-slate-400 drop-shadow-lg hover:bg-slate-500 dark:bg-slate-600 dark:text-slate-200 dark:shadow-slate-800 dark:hover:bg-slate-500;
 	}
 
 	.icon {
 		@apply text-2xl;
+	}
+
+	.error {
+		@apply font-semibold text-red-400;
 	}
 }

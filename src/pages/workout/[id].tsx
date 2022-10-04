@@ -4,9 +4,9 @@ import Head from 'next/head'
 import {useRouter} from 'next/router'
 import {useEffect} from 'react'
 import {useForm, SubmitHandler} from 'react-hook-form'
+import toast, {Toaster} from 'react-hot-toast'
 
 import Spinner from 'src/components/spinner'
-import Chart from 'src/components/chart'
 import Set from 'src/components/set'
 import Menu from 'src/components/menu'
 import PredefinedExercises from 'src/components/predefined-exercises'
@@ -60,12 +60,29 @@ const WorkoutId = () => {
 		isLoading: exercisesIsLoading,
 	} = trpc.exercise.getExercises.useQuery({workoutId})
 
-	const createExercise = trpc.exercise.createExercise.useMutation()
+	const createExercise = trpc.exercise.createExercise.useMutation({
+		async onSuccess() {
+			await utils.workout.getWorkoutById.invalidate()
+			await utils.exercise.getExercises.invalidate()
+		},
+	})
 
 	const onSubmit: SubmitHandler<CreateExercise> = async (data) => {
 		try {
 			data.workoutId = workoutId
-			await createExercise.mutateAsync(data)
+			const newExercise = await createExercise.mutateAsync(data)
+
+			if (newExercise) {
+				toast('New exercise created!', {
+					duration: 2000,
+					position: 'top-center',
+					icon: '👏',
+					iconTheme: {
+						primary: '#000',
+						secondary: '#fff',
+					},
+				})
+			}
 		} catch {}
 	}
 
@@ -78,13 +95,29 @@ const WorkoutId = () => {
 					message,
 					to,
 				}
-				await fetch('/api/twilio', {
+				const result = await fetch('/api/twilio', {
 					headers: {
 						'Content-Type': 'application/json',
 					},
 					method: 'POST',
 					body: JSON.stringify(data),
 				})
+
+				if (result) {
+					toast('Good work!, check your phone!', {
+						duration: 2000,
+						position: 'top-center',
+						icon: '👏',
+						iconTheme: {
+							primary: '#000',
+							secondary: '#fff',
+						},
+					})
+
+					setTimeout(() => {
+						router.push('/workout/view-workouts')
+					}, 1000)
+				}
 			} catch (e) {
 				console.log(e)
 			}
@@ -102,47 +135,46 @@ const WorkoutId = () => {
 			<Head>
 				<title>{data && data.name}</title>
 			</Head>
+			<Toaster />
 			<Menu>
 				<div className='container mx-auto grid grid-cols-1 gap-4 p-4'>
 					{isLoading && <Spinner />}
 					{isError && <div>Error</div>}
 					{data && (
-						<div className='mx-auto'>
+						<>
 							<h2 className='text-center text-xl font-bold'>
 								Workout: {data.name}
 							</h2>
-							<p className='text-center'>Description: {data.description}</p>
-						</div>
+							<p className='text-center text-lg'>
+								Description: {data.description}
+							</p>
+						</>
 					)}
-					<div className='rounded bg-blue-300 p-10 dark:bg-slate-900'>
+					<div className='rounded bg-slate-300 p-10 shadow drop-shadow-lg dark:bg-slate-900'>
 						{data && data.type && (
 							<PredefinedExercises type={data.type} workoutId={workoutId} />
 						)}
 					</div>
 
 					<form
-						className='rounded bg-blue-700 p-4 dark:bg-slate-900'
+						className='rounded bg-slate-300 p-4 shadow drop-shadow-lg dark:bg-slate-900'
 						onSubmit={handleSubmit(onSubmit)}
 					>
-						<div className='mb-4'>
-							<label className='mb-2 block font-bold text-white' htmlFor='name'>
-								Name
-							</label>
+						<div className='mb-4 flex flex-col gap-2'>
 							<input
 								className='focus:shadow-outline w-full appearance-none rounded border py-2 px-3 leading-tight shadow focus:outline-none'
 								id='name'
 								type='text'
 								placeholder='Name'
-								{...register('name', {required: true})}
+								{...register('name', {required: 'The name field is required!'})}
 							/>
-							{errors.name && <span>This field is required</span>}
+							{errors.name && (
+								<span className='error'>{errors.name.message}</span>
+							)}
 						</div>
 
 						<div className='flex justify-center'>
-							<button
-								className='rounded bg-blue-500 py-2 px-4 text-sm font-bold text-white hover:bg-blue-700'
-								type='submit'
-							>
+							<button className='button' type='submit'>
 								Create new exercise
 							</button>
 						</div>
@@ -162,7 +194,7 @@ const WorkoutId = () => {
 								exercisesData.map((exercise, i) => (
 									<div
 										key={i}
-										className='flex flex-col gap-4 rounded bg-blue-300 p-4 dark:bg-slate-900'
+										className='flex flex-col gap-4 rounded bg-slate-300 p-4 shadow-lg drop-shadow-lg dark:bg-slate-900'
 									>
 										<h3 className='text-center text-lg font-bold dark:text-white'>
 											{exercise.name}

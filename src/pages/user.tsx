@@ -54,7 +54,11 @@ const UserId = () => {
 							<p>{data.email}</p>
 							{data.phoneNumber && <p>{data.phoneNumber}</p>}
 							<div className='flex flex-col items-center justify-center gap-4'>
-								<EditUser userId={data.id} name={data.name as string} />
+								<EditUser
+									userId={data.id}
+									name={data.name as string}
+									phoneNumber={data.phoneNumber ?? ''}
+								/>
 								<button
 									className='button'
 									onClick={() => onDeleteUser(data.id)}

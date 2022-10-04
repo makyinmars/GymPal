@@ -23,16 +23,18 @@ const Workout = () => {
 			</Head>
 			<Menu>
 				<div className='container mx-auto flex flex-col gap-4 p-4'>
-					<h1 className='text-center text-3xl font-bold'>Gym Pal</h1>
+					<h1 className='text-center text-3xl font-bold text-slate-800 dark:text-slate-200'>
+						Gym Pal
+					</h1>
 					<div className='flex justify-center'>
-						<div className='grid grid-cols-1 justify-center gap-4 rounded-md bg-blue-300 p-4 dark:bg-slate-900 md:w-3/6 md:grid-cols-2'>
+						<div className='grid grid-cols-1 justify-center gap-4 rounded-md bg-slate-400 p-4 dark:bg-slate-900 md:w-3/6 md:grid-cols-2'>
 							<Link href='/workout/create-workout'>
-								<a className='button flex items-center justify-center rounded-md bg-slate-700 text-lg font-bold dark:bg-blue-900 dark:text-white'>
+								<a className='button flex items-center justify-center rounded-md bg-slate-600 text-lg font-bold dark:bg-slate-400 dark:text-slate-900'>
 									Create Workout
 								</a>
 							</Link>
 							<Link href='/workout/view-workouts'>
-								<a className='button flex items-center justify-center rounded-md bg-slate-700 text-lg font-bold dark:bg-blue-900 dark:text-white'>
+								<a className='button flex items-center justify-center rounded-md bg-slate-600 text-lg font-bold dark:bg-slate-400 dark:text-slate-900'>
 									View Workout
 								</a>
 							</Link>

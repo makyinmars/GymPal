@@ -35,7 +35,11 @@ const Set = ({exerciseId, workoutId, showForm}: SetProps) => {
 		control,
 	})
 
-	const createSets = trpc.set.createSets.useMutation()
+	const createSets = trpc.set.createSets.useMutation({
+		async onSuccess() {
+			await utils.set.getSetsByExerciseId.invalidate()
+		},
+	})
 
 	const {data, isError, isLoading} = trpc.set.getSetsByExerciseId.useQuery({
 		exerciseId,
@@ -72,7 +76,7 @@ const Set = ({exerciseId, workoutId, showForm}: SetProps) => {
 						return (
 							<div
 								key={field.id}
-								className='grid grid-cols-2 items-center gap-2 rounded bg-blue-700 p-2 dark:bg-blue-900'
+								className='grid grid-cols-2 items-center gap-2 rounded bg-slate-700 p-2'
 							>
 								<label htmlFor='weight' className='text-center text-white'>
 									Weight
@@ -114,7 +118,7 @@ const Set = ({exerciseId, workoutId, showForm}: SetProps) => {
 						)
 					})}
 
-					<div className='dark:blue-900 flex items-center justify-center gap-4 rounded bg-blue-700 py-2 dark:bg-blue-900'>
+					<div className='dark:blue-900 flex items-center justify-center gap-4 rounded py-2'>
 						<button
 							className='button hover:bg-blue-400'
 							onClick={() =>
@@ -124,7 +128,7 @@ const Set = ({exerciseId, workoutId, showForm}: SetProps) => {
 								})
 							}
 						>
-							Add Set
+							Add one more set
 						</button>
 					</div>
 					<div className='flex justify-center'>
