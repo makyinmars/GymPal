@@ -26,6 +26,12 @@ const WorkoutId = () => {
 
 	const utils = trpc.useContext()
 
+	const {data: dataInfo} = trpc.workout.getAllInfoForWorkoutById.useQuery({
+		workoutId: id,
+	})
+
+	console.log(dataInfo)
+
 	const {
 		register,
 		handleSubmit,
@@ -38,7 +44,7 @@ const WorkoutId = () => {
 		isLoading: userIsLoading,
 	} = trpc.user.getUser.useQuery()
 
-	const workoutId = router.query.id as string
+	const workoutId = router.query.id as strinrg
 
 	const deleteExercise = trpc.exercise.deleteExercise.useMutation({
 		async onSuccess() {
@@ -157,7 +163,7 @@ const WorkoutId = () => {
 					</div>
 
 					<form
-						className='rounded bg-slate-300 p-4 shadow drop-shadow-lg dark:bg-slate-900'
+						className='mx-auto rounded bg-slate-300 p-4 shadow drop-shadow-lg dark:bg-slate-900'
 						onSubmit={handleSubmit(onSubmit)}
 					>
 						<div className='mb-4 flex flex-col gap-2'>
@@ -166,7 +172,9 @@ const WorkoutId = () => {
 								id='name'
 								type='text'
 								placeholder='Name'
-								{...register('name', {required: 'The name field is required!'})}
+								{...register('name', {
+									required: 'The name field is required!',
+								})}
 							/>
 							{errors.name && (
 								<span className='error'>{errors.name.message}</span>
@@ -184,12 +192,6 @@ const WorkoutId = () => {
 						{exercisesIsLoading && <div>Loading...</div>}
 						{exercisesIsError && <div>Error</div>}
 						<div className='grid grid-cols-1 gap-4 rounded p-4 md:grid-cols-3'>
-							{exercisesIsLoading && (
-								<div className='col-span-3 text-center'>Loading...</div>
-							)}
-							{exercisesIsError && (
-								<div className='col-span-3 text-center'>Error</div>
-							)}
 							{exercisesData && exercisesData.length >= 1 ? (
 								exercisesData.map((exercise, i) => (
 									<div
