@@ -98,4 +98,27 @@ export const workoutRouter = t.router({
 				},
 			})
 		}),
+
+	getAllInfoForWorkoutById: authedProcedure
+		.input(
+			z.object({
+				workoutId: z.string(),
+			})
+		)
+		.query(async ({ctx, input: {workoutId}}) => {
+			const workout = await ctx.prisma.workout.findUnique({
+				where: {
+					id: workoutId,
+				},
+				include: {
+					exercises: {
+						include: {
+							sets: true,
+						},
+					},
+				},
+			})
+
+			return workout
+		}),
 })
