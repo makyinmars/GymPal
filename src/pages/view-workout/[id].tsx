@@ -1,6 +1,5 @@
 import Head from 'next/head'
 
-import Set from 'src/components/set'
 import Menu from 'src/components/menu'
 import {trpc} from 'src/utils/trpc'
 import {useRouter} from 'next/router'
@@ -37,10 +36,10 @@ const ViewWorkout = () => {
 						</div>
 					)}
 					<div>
-						<h2 className='text-center'>Exercises</h2>
+						<h2 className='pb-4 text-center text-2xl font-bold'>Exercises</h2>
 						{exercisesIsLoading && <div>Loading...</div>}
 						{exercisesIsError && <div>Error</div>}
-						<div className='grid grid-cols-1 gap-4 rounded p-4 md:grid-cols-3'>
+						<div className='grid grid-cols-1 gap-4 rounded p-4 md:grid-cols-3 lg:grid-cols-4'>
 							{exercisesIsLoading && (
 								<div className='col-span-3 text-center'>Loading...</div>
 							)}
@@ -51,16 +50,25 @@ const ViewWorkout = () => {
 								exercisesData.map((exercise, i) => (
 									<div
 										key={i}
-										className='flex flex-col gap-4 rounded bg-slate-300 p-4'
+										className='flex flex-col gap-4 rounded bg-slate-300 p-4 shadow-lg drop-shadow-lg dark:bg-slate-900'
 									>
 										<h3 className='text-center text-xl font-bold'>
 											{exercise.name}
 										</h3>
-										<Set
-											exerciseId={exercise.id}
-											workoutId={exercise.workoutId}
-											showForm={false}
-										/>
+
+										<div className='grid grid-cols-2 place-items-center'>
+											<h4>Reps</h4>
+											<h4>Weight</h4>
+										</div>
+										{exercise.sets.map((set, i) => (
+											<div
+												key={i}
+												className='grid grid-cols-2 place-items-center'
+											>
+												<p>{set.reps}</p>
+												<p>{set.weight}</p>
+											</div>
+										))}
 									</div>
 								))
 							) : (

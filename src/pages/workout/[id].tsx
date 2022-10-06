@@ -5,9 +5,11 @@ import {useRouter} from 'next/router'
 import {useEffect} from 'react'
 import {useForm, SubmitHandler} from 'react-hook-form'
 import toast, {Toaster} from 'react-hot-toast'
+import {FcEmptyTrash} from 'react-icons/fc'
+import {AiFillDelete} from 'react-icons/ai'
 
 import Spinner from 'src/components/spinner'
-import Set from 'src/components/set'
+import EditSet from 'src/components/edit-set'
 import Menu from 'src/components/menu'
 import PredefinedExercises from 'src/components/predefined-exercises'
 import {trpc} from 'src/utils/trpc'
@@ -26,23 +28,13 @@ const WorkoutId = () => {
 
 	const utils = trpc.useContext()
 
-	const {data: dataInfo} = trpc.workout.getAllInfoForWorkoutById.useQuery({
-		workoutId,
-	})
-
-	console.log(dataInfo)
-
 	const {
 		register,
 		handleSubmit,
 		formState: {errors},
 	} = useForm<CreateExercise>()
 
-	const {
-		data: userData,
-		isError: userIsError,
-		isLoading: userIsLoading,
-	} = trpc.user.getUser.useQuery()
+	const {data: userData} = trpc.user.getUser.useQuery()
 
 	const deleteExercise = trpc.exercise.deleteExercise.useMutation({
 		async onSuccess() {
@@ -52,8 +44,40 @@ const WorkoutId = () => {
 
 	const onDeleteExercise = async (id: string) => {
 		try {
-			await deleteExercise.mutateAsync({id})
+			const deletedExercise = await deleteExercise.mutateAsync({id})
+			if (deletedExercise) {
+				toast('Exercise deleted!', {
+					duration: 2000,
+					position: 'top-center',
+					icon: '👏',
+					iconTheme: {
+						primary: '#000',
+						secondary: '#fff',
+					},
+				})
+			}
 		} catch {}
+	}
+
+	const deleteSet = trpc.set.deleteSetById.useMutation({
+		async onSuccess() {
+			await utils.exercise.getExercises.invalidate()
+		},
+	})
+
+	const onDeleteSet = async (id: string) => {
+		const deletedSet = await deleteSet.mutateAsync({id})
+		if (deletedSet) {
+			toast('Set deleted!', {
+				duration: 2000,
+				position: 'top-center',
+				icon: '👏',
+				iconTheme: {
+					primary: '#000',
+					secondary: '#fff',
+				},
+			})
+		}
 	}
 
 	const {data, isError, isLoading} = trpc.workout.getWorkoutById.useQuery({
@@ -188,10 +212,10 @@ const WorkoutId = () => {
 						</div>
 					</form>
 					<div>
-						<h2 className='text-center text-2xl font-bold'>Exercises</h2>
+						<h2 className='pb-4 text-center text-2xl font-bold'>Exercises</h2>
 						{exercisesIsLoading && <div>Loading...</div>}
 						{exercisesIsError && <div>Error</div>}
-						<div className='grid grid-cols-1 gap-4 rounded p-4 md:grid-cols-3'>
+						<div className='grid grid-cols-1 gap-4 rounded md:grid-cols-3 lg:grid-cols-4'>
 							{exercisesData && exercisesData.length >= 1 ? (
 								exercisesData.map((exercise, i) => (
 									<div
@@ -201,18 +225,38 @@ const WorkoutId = () => {
 										<h3 className='text-center text-lg font-bold dark:text-white'>
 											{exercise.name}
 										</h3>
-										<Set
-											exerciseId={exercise.id}
-											workoutId={exercise.workoutId}
-											showForm={true}
-										/>
-										<div className='flex justify-center'>
+										<div className='grid grid-cols-2 place-items-center'>
+											<h4>Reps</h4>
+											<h4>Weight</h4>
+										</div>
+										{exercise.sets.map((set, i) => (
+											<div
+												key={i}
+												className='grid grid-cols-2 place-items-center'
+											>
+												<p>{set.reps}</p>
+												<p className='flex items-center gap-1'>
+													<span>{set.weight}</span>
+													<span
+														className='cursor-pointer'
+														onClick={() => onDeleteSet(set.id)}
+													>
+														<AiFillDelete className='text-red-400' />
+													</span>
+												</p>
+											</div>
+										))}
+										<div className='flex flex-col justify-around gap-2 lg:flex-row'>
 											<button
-												className='button'
+												className='button flex items-center justify-center'
 												onClick={() => onDeleteExercise(exercise.id)}
 											>
-												Delete exercise
+												<span>Delete exercise</span>
+												<span>
+													<FcEmptyTrash className='h-4 w-4' />
+												</span>
 											</button>
+											<EditSet exerciseId={exercise.id} workoutId={workoutId} />
 										</div>
 									</div>
 								))
@@ -222,7 +266,7 @@ const WorkoutId = () => {
 						</div>
 
 						{exercisesData && exercisesData.length >= 1 && (
-							<div className='flex justify-center'>
+							<div className='mt-4 flex justify-center'>
 								<button className='button' onClick={() => onCompleteWorkout()}>
 									Complete workout
 								</button>

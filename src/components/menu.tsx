@@ -5,6 +5,7 @@ import {GiHamburgerMenu} from 'react-icons/gi'
 import {AiFillHome} from 'react-icons/ai'
 import {CgGym} from 'react-icons/cg'
 import {FiSettings} from 'react-icons/fi'
+
 import Theme from './theme'
 
 interface MenuProps {
@@ -39,17 +40,15 @@ const Menu = ({children}: MenuProps) => {
 						>
 							<Dropdown.Items className='left-50 w-46 absolute top-12 mt-2 origin-top-left rounded-md bg-white shadow-lg'>
 								{links.map((link, i) => (
-									<Dropdown.Item key={link.href} as={Fragment}>
-										{({active}) => (
-											<div>
-												<Link href={link.href}>
-													<a className='flex items-center gap-1 rounded-md bg-white py-0.5 px-2 hover:bg-gray-300 dark:text-black'>
-														{link.icon}
-														{link.label}
-													</a>
-												</Link>
-											</div>
-										)}
+									<Dropdown.Item key={i} as={Fragment}>
+										<div>
+											<Link href={link.href}>
+												<a className='flex items-center gap-1 rounded-md bg-white py-0.5 px-2 hover:bg-gray-300 dark:text-black'>
+													{link.icon}
+													{link.label}
+												</a>
+											</Link>
+										</div>
 									</Dropdown.Item>
 								))}
 							</Dropdown.Items>
