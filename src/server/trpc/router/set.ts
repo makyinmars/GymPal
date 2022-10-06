@@ -117,7 +117,7 @@ export const setRouter = t.router({
 			})
 		}),
 
-	deleteSet: authedProcedure
+	deleteSetById: authedProcedure
 		.input(
 			z.object({
 				id: z.string(),
